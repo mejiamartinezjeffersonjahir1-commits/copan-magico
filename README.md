@@ -1,20 +1,1949 @@
-# Copán Mágico
+<!DOCTYPE html>
 
-Página web turística sobre Copán, Honduras. El sitio está hecho con HTML, CSS y JavaScript en un solo archivo: `index.html`.
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Copán Mágico | Portal Turístico Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+/* ============================================================
+   COPÁN MÁGICO — EDICIÓN PREMIUM v7 ULTIMATE
+============================================================ */
+:root{
+  --oro:#c9a24b;
+  --oro-claro:#e8d5a4;
+  --jungla:#071a12;
+  --jungla-2:#0c2b1d;
+  --crema:#f6f1e7;
+  --tinta:#1d2420;
+  --ease-lujo:cubic-bezier(.16,1,.3,1);
+  --ease-cine:cubic-bezier(.77,0,.18,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--crema);color:var(--tinta);font-family:'Manrope',sans-serif;overflow-x:hidden}
+body.bloqueado{overflow:hidden}
+::selection{background:var(--oro);color:var(--jungla)}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--jungla)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--oro),#8a6a25);border-radius:10px}
+h1,h2,h3,.serif{font-family:'Playfair Display',serif}
+img{display:block;user-select:none;-webkit-user-drag:none}
 
-## Cómo funciona la publicación automática
+/* ---------- CURSOR PERSONALIZADO ---------- */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;border-radius:50%;mix-blend-mode:difference}
+.cursor-dot{width:8px;height:8px;background:#fff;transform:translate(-50%,-50%)}
+.cursor-ring{width:42px;height:42px;border:1.5px solid rgba(255,255,255,.75);transform:translate(-50%,-50%);transition:width .35s var(--ease-lujo),height .35s var(--ease-lujo),background .35s}
+body.cursor-grow .cursor-ring{width:78px;height:78px;background:rgba(255,255,255,.12)}
+@media (pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
 
-Netlify se conecta una sola vez al repositorio de GitHub. Después, cada vez que se guarden cambios en GitHub, Netlify detecta la actualización y vuelve a publicar la página automáticamente.
+/* ---------- PRELOADER ---------- */
+#preloader{position:fixed;inset:0;background:var(--jungla);z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:transform 1s var(--ease-cine) .2s,opacity .6s ease .5s}
+#preloader.adios{transform:translateY(-101%);opacity:1}
+.pre-logo{font-family:'Playfair Display',serif;font-size:clamp(2rem,6vw,3.6rem);color:var(--crema);letter-spacing:.35em;text-transform:uppercase;overflow:hidden}
+.pre-logo span{color:var(--oro);font-style:italic;letter-spacing:.1em}
+.pre-logo i{display:inline-block;transform:translateY(110%);animation:subirLetra .9s var(--ease-lujo) forwards;animation-delay:calc(var(--i)*.06s)}
+@keyframes subirLetra{to{transform:translateY(0)}}
+.pre-barra{width:min(320px,60vw);height:1px;background:rgba(255,255,255,.15);position:relative;overflow:hidden}
+.pre-barra span{position:absolute;inset:0;background:linear-gradient(90deg,var(--oro),var(--oro-claro));transform:scaleX(0);transform-origin:left;transition:transform .2s linear}
+.pre-num{color:var(--oro);font-weight:200;letter-spacing:.4em;font-size:.85rem}
 
-## Configuración de Netlify
+/* ---------- CORTINA DE TRANSICIÓN ---------- */
+#curtain{position:fixed;inset:0;z-index:99990;background:linear-gradient(160deg,var(--jungla) 0%,var(--jungla-2) 55%,#123f2a 100%);transform:translateY(101%);display:flex;align-items:center;justify-content:center;transition:transform .65s var(--ease-cine)}
+#curtain.cover-in{transform:translateY(0)}
+#curtain.cover-out{transform:translateY(-101%)}
+#curtain.no-trans{transition:none}
+#curtain .emblema{font-family:'Playfair Display',serif;color:var(--oro);font-size:clamp(1.4rem,4vw,2.4rem);letter-spacing:.5em;text-transform:uppercase;opacity:0;transition:opacity .4s ease .15s}
+#curtain.cover-in .emblema{opacity:1}
 
-Al importar el repositorio desde GitHub, esta página estática no necesita comando de compilación. Usa la carpeta raíz del repositorio como directorio de publicación y deja vacío el comando de compilación.
+/* ---------- PROGRESO DE SCROLL ---------- */
+#progreso{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--oro),var(--oro-claro));z-index:99998;box-shadow:0 0 12px rgba(201,162,75,.8)}
 
-## Cómo hacer cambios
+/* ---------- NAV ---------- */
+nav{position:fixed;top:0;width:100%;z-index:9990;display:flex;justify-content:space-between;align-items:center;padding:26px 5vw;transition:all .5s var(--ease-lujo);background:transparent}
+nav.solido{background:rgba(7,26,18,.86);backdrop-filter:blur(14px);padding:14px 5vw;box-shadow:0 10px 40px rgba(0,0,0,.35);border-bottom:1px solid rgba(201,162,75,.25)}
+.logo{color:var(--crema);font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;letter-spacing:.28em;cursor:pointer;text-transform:uppercase}
+.logo span{color:var(--oro);font-style:italic;font-weight:400;letter-spacing:.05em}
+.nav-links{display:flex;gap:38px;align-items:center}
+.nav-links a{color:rgba(246,241,231,.85);text-decoration:none;font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;font-weight:600;position:relative;padding:6px 0;cursor:pointer}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--oro);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease-lujo)}
+.nav-links a:hover{color:var(--oro-claro)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-cta{border:1px solid var(--oro);padding:10px 22px !important;border-radius:40px;color:var(--oro) !important;transition:all .4s ease}
+.nav-cta:hover{background:var(--oro);color:var(--jungla) !important;box-shadow:0 0 30px rgba(201,162,75,.45)}
+@media(max-width:820px){.nav-links a:not(.nav-cta){display:none}}
 
-1. Abre el repositorio en GitHub y entra en `index.html`.
-2. Pulsa el lápiz para editar, realiza el cambio y escribe un mensaje breve, por ejemplo: `Actualiza la sección de lugares`.
-3. Pulsa **Commit changes** para guardar el cambio en la rama principal.
-4. Abre el sitio en Netlify y espera a que termine el nuevo despliegue. Luego actualiza la página publicada.
+/* ---------- HERO ---------- */
+.hero{height:100vh;min-height:640px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+.hero-bg{position:absolute;inset:-12% 0;z-index:0;will-change:transform}
+.hero-bg img{width:100%;height:100%;object-fit:cover;animation:kenburns 22s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1) translate(0,0)}to{transform:scale(1.14) translate(-2%,-2%)}}
+.hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(7,26,18,.75) 0%,rgba(7,26,18,.25) 45%,rgba(7,26,18,.88) 100%)}
+.hero-contenido{position:relative;z-index:3;color:var(--crema);padding:0 6vw;max-width:1100px}
+.hero-eyebrow{font-size:.8rem;letter-spacing:.6em;text-transform:uppercase;color:var(--oro-claro);font-weight:600;margin-bottom:26px;opacity:0;animation:aparecer 1.2s ease .3s forwards}
+@keyframes aparecer{to{opacity:1}}
+.hero h1{font-size:clamp(3rem,9.5vw,7.5rem);line-height:.95;font-weight:900;text-transform:uppercase;letter-spacing:.02em}
+.hero h1 .linea{display:block;overflow:hidden}
+.hero h1 .linea i{display:block;font-style:normal;transform:translateY(115%);transition:transform 1.2s var(--ease-lujo)}
+.hero h1 .linea:nth-child(2) i{transition-delay:.15s;font-style:italic;font-weight:400;text-transform:none;background:linear-gradient(100deg,var(--oro-claro),var(--oro) 60%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+body.cargado .hero h1 .linea i{transform:translateY(0)}
+.hero p{margin:30px auto 0;max-width:640px;font-size:clamp(1rem,1.6vw,1.2rem);font-weight:300;line-height:1.8;color:rgba(246,241,231,.85);opacity:0;animation:aparecer 1.2s ease 1s forwards}
+.hero-botones{margin-top:44px;display:flex;gap:22px;justify-content:center;flex-wrap:wrap;opacity:0;animation:aparecer 1.2s ease 1.25s forwards}
+.btn-oro,.btn-fantasma{position:relative;overflow:hidden;padding:17px 42px;border-radius:50px;font-size:.82rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:12px;transition:all .45s var(--ease-lujo)}
+button.btn-oro{border:none;font-family:'Manrope',sans-serif}
+.btn-oro{background:linear-gradient(120deg,var(--oro),#e3c477);color:var(--jungla);box-shadow:0 14px 40px rgba(201,162,75,.35)}
+.btn-oro:hover{transform:translateY(-4px);box-shadow:0 22px 55px rgba(201,162,75,.55)}
+.btn-fantasma{border:1px solid rgba(246,241,231,.5);color:var(--crema)}
+.btn-fantasma:hover{border-color:var(--oro);color:var(--oro-claro);background:rgba(201,162,75,.1);transform:translateY(-4px)}
+.btn-fantasma.oscuro{border-color:rgba(29,36,32,.35);color:var(--jungla)}
+.btn-fantasma.oscuro:hover{border-color:var(--oro);color:#8a6a25;background:rgba(201,162,75,.12)}
+.particula{position:absolute;z-index:2;bottom:-10px;background:radial-gradient(circle,var(--oro-claro),rgba(201,162,75,0));border-radius:50%;opacity:0;animation:flotar linear infinite}
+@keyframes flotar{0%{transform:translateY(0);opacity:0}12%{opacity:.75}100%{transform:translateY(-105vh) translateX(6vw);opacity:0}}
+.insignia{position:absolute;z-index:4;right:5vw;bottom:6vh;width:130px;height:130px;opacity:0;animation:aparecer 1s ease 1.6s forwards}
+.insignia svg{width:100%;height:100%;animation:girar 16s linear infinite}
+.insignia text{fill:var(--oro-claro);font-size:10.5px;letter-spacing:3.2px;font-family:'Manrope';font-weight:700;text-transform:uppercase}
+.insignia i{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--oro);font-size:1.3rem;animation:rebote 2.2s ease-in-out infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+@keyframes rebote{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+@media(max-width:700px){.insignia{display:none}}
 
-El repositorio conserva el código; Netlify publica la versión visible del sitio.
+/* ---------- MARQUESINA ---------- */
+.marquee{background:var(--jungla);border-top:1px solid rgba(201,162,75,.3);border-bottom:1px solid rgba(201,162,75,.3);overflow:hidden;padding:20px 0}
+.marquee-track{display:flex;width:max-content;animation:marquee 30s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-track span{color:var(--oro-claro);font-family:'Playfair Display',serif;font-size:1.15rem;letter-spacing:.35em;text-transform:uppercase;padding:0 28px;white-space:nowrap;display:flex;align-items:center;gap:28px}
+.marquee-track span i{color:var(--oro);font-size:.7rem}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---------- SECCIONES ---------- */
+.contenedor{max-width:1400px;margin:0 auto;padding:110px 5vw}
+.cabecera-seccion{text-align:center;margin-bottom:70px}
+.cabecera-seccion .kicker{color:var(--oro);font-size:.78rem;font-weight:800;letter-spacing:.55em;text-transform:uppercase;display:inline-flex;align-items:center;gap:18px}
+.cabecera-seccion .kicker::before,.cabecera-seccion .kicker::after{content:'';width:46px;height:1px;background:var(--oro)}
+.cabecera-seccion h2{font-size:clamp(2.4rem,5vw,4rem);color:var(--jungla);margin-top:18px;font-weight:900}
+.cabecera-seccion h2 em{color:var(--oro);font-weight:400}
+.cabecera-seccion p{max-width:620px;margin:18px auto 0;color:#6a716c;line-height:1.8;font-weight:300}
+.cabecera-seccion.oscura h2{color:var(--crema)}
+.cabecera-seccion.oscura p{color:rgba(246,241,231,.72)}
+
+/* ---------- TARJETAS MACRO ---------- */
+.grid-principal{display:grid;grid-template-columns:1fr;gap:34px;perspective:1600px;max-width:600px;margin:0 auto}
+.tarjeta-macro{position:relative;border-radius:22px;overflow:hidden;height:480px;cursor:pointer;transform-style:preserve-3d;transform:perspective(1200px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out,box-shadow .5s ease;box-shadow:0 22px 45px rgba(7,26,18,.22)}
+.tarjeta-macro:hover{box-shadow:0 40px 80px rgba(7,26,18,.4)}
+.tarjeta-macro img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease-lujo),filter .8s ease}
+.tarjeta-macro:hover img{transform:scale(1.12);filter:brightness(.72) saturate(1.1)}
+.tarjeta-macro::before{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.28) 50%,transparent 60%);transform:translateX(-160%) skewX(-18deg);transition:transform 1s ease}
+.tarjeta-macro:hover::before{transform:translateX(160%) skewX(-18deg)}
+.tarjeta-macro::after{content:'';position:absolute;inset:0;z-index:2;background:radial-gradient(520px circle at var(--mx,50%) var(--my,50%),rgba(201,162,75,.22),transparent 45%);opacity:0;transition:opacity .4s}
+.tarjeta-macro:hover::after{opacity:1}
+.num-agua{position:absolute;top:22px;right:26px;z-index:3;font-family:'Playfair Display',serif;font-size:4.6rem;font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(232,213,164,.65);line-height:1}
+.capa-texto{position:absolute;bottom:0;left:0;width:100%;z-index:3;padding:110px 32px 32px;background:linear-gradient(transparent,rgba(7,26,18,.55) 35%,rgba(7,26,18,.95));color:var(--crema)}
+.capa-texto .tag{display:inline-block;font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--jungla);background:var(--oro);padding:6px 14px;border-radius:30px;font-weight:800;margin-bottom:14px}
+.capa-texto h2{font-size:2.1rem;margin-bottom:8px}
+.capa-texto p{font-size:.95rem;font-weight:300;color:rgba(246,241,231,.82);margin-bottom:20px;line-height:1.6}
+.btn-entrar{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:var(--oro-claro);border-bottom:1px solid rgba(201,162,75,.5);padding-bottom:6px;transition:gap .35s var(--ease-lujo),color .35s}
+.tarjeta-macro:hover .btn-entrar{gap:18px;color:#fff}
+
+/* ---------- BANDA DE DATOS ---------- */
+.banda-datos{background:var(--jungla);position:relative;overflow:hidden}
+.banda-datos::before{content:'';position:absolute;inset:0;background:radial-gradient(900px 400px at 15% 0%,rgba(201,162,75,.14),transparent),radial-gradient(700px 400px at 90% 100%,rgba(201,162,75,.1),transparent)}
+.grid-datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:40px;position:relative;text-align:center}
+.dato .numero{font-family:'Playfair Display',serif;font-size:clamp(3rem,5vw,4.6rem);font-weight:900;color:var(--oro);line-height:1}
+.dato .numero small{font-size:.45em;color:var(--oro-claro)}
+.dato .etiqueta{margin-top:12px;color:rgba(246,241,231,.75);font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;font-weight:600}
+.dato{position:relative;padding:10px 0}
+.dato + .dato::before{content:'';position:absolute;left:-20px;top:15%;height:70%;width:1px;background:rgba(201,162,75,.25)}
+@media(max-width:900px){.dato + .dato::before{display:none}}
+
+/* ---------- CITA PARALLAX ---------- */
+.banda-cita{position:relative;height:70vh;min-height:480px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.banda-cita .fondo{position:absolute;inset:-15% 0;background:url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Ruinas_MAYA_Copan_Honduras_14.jpg/1280px-Ruinas_MAYA_Copan_Honduras_14.jpg') center/cover no-repeat;will-change:transform}
+.banda-cita::before{content:'';position:absolute;inset:0;background:rgba(7,26,18,.66);z-index:1}
+.banda-cita blockquote{position:relative;z-index:2;color:var(--crema);max-width:860px;padding:0 6vw;font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3.4vw,2.6rem);font-style:italic;line-height:1.5}
+.banda-cita cite{display:block;margin-top:26px;font-family:'Manrope';font-style:normal;font-size:.78rem;letter-spacing:.5em;text-transform:uppercase;color:var(--oro-claro)}
+
+/* ---------- GALERÍA DE IMÁGENES ---------- */
+.galeria-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-top:50px}
+.galeria-item{position:relative;border-radius:16px;overflow:hidden;cursor:zoom-in;aspect-ratio:4/3;background:var(--jungla-2);box-shadow:0 12px 35px rgba(7,26,18,.18);transition:transform .6s var(--ease-lujo),box-shadow .6s}
+.galeria-item:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 25px 60px rgba(7,26,18,.3)}
+.galeria-item img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-lujo),filter .6s}
+.galeria-item:hover img{transform:scale(1.15);filter:brightness(.85) saturate(1.2)}
+.galeria-item::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(7,26,18,.85) 0%,transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none}
+.galeria-item:hover::after{opacity:1}
+.galeria-caption{position:absolute;bottom:0;left:0;right:0;padding:20px;color:#fff;font-size:.85rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;z-index:2;transform:translateY(20px);opacity:0;transition:all .5s var(--ease-lujo)}
+.galeria-item:hover .galeria-caption{transform:translateY(0);opacity:1}
+.galeria-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.7);width:60px;height:60px;border-radius:50%;background:rgba(201,162,75,.9);display:flex;align-items:center;justify-content:center;color:var(--jungla);font-size:1.3rem;opacity:0;transition:all .5s var(--ease-lujo);z-index:3}
+.galeria-item:hover .galeria-icon{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* ---------- VISTAS INTERNAS ---------- */
+#vista-interna{display:none}
+.zona-oculta{display:none}
+.zona-oculta.activa{display:block;animation:fadeIn .9s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.header-zona{position:relative;height:82vh;min-height:520px;display:flex;align-items:flex-end;overflow:hidden;background:var(--jungla)}
+.header-zona .fondo-zona{position:absolute;inset:0;background-size:cover;background-position:center;background-attachment:fixed}
+.header-zona::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,26,18,.6),rgba(7,26,18,.15) 40%,rgba(246,241,231,.95) 96%);z-index:1}
+.header-zona .contenido-zona{position:relative;z-index:2;padding:0 6vw 70px;color:var(--crema);max-width:1400px;width:100%}
+.chips{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.chip{backdrop-filter:blur(8px);background:rgba(7,26,18,.45);border:1px solid rgba(201,162,75,.55);color:var(--oro-claro);font-size:.68rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;padding:9px 18px;border-radius:40px;display:inline-flex;align-items:center;gap:9px}
+.header-zona h2{font-size:clamp(2.8rem,7vw,5.6rem);font-weight:900;text-transform:uppercase;line-height:1;text-shadow:0 12px 40px rgba(0,0,0,.45)}
+.header-zona h2 em{display:block;font-size:.42em;font-weight:400;text-transform:none;letter-spacing:.06em;color:var(--oro-claro);margin-top:14px}
+@media (pointer:coarse){.header-zona .fondo-zona{background-attachment:scroll}}
+
+/* ---------- TABS MEJORADOS ---------- */
+.tabs-zonas{display:flex;gap:0;margin-top:40px;background:rgba(7,26,18,.04);border-radius:50px;padding:6px;width:fit-content;border:1px solid rgba(201,162,75,.2)}
+.tab-zona{padding:14px 32px;font-size:.78rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#6a716c;cursor:pointer;border-radius:44px;transition:all .5s var(--ease-lujo);position:relative;display:flex;align-items:center;gap:10px}
+.tab-zona:hover{color:var(--oro)}
+.tab-zona.activa{background:linear-gradient(120deg,var(--oro),#e3c477);color:var(--jungla);box-shadow:0 8px 24px rgba(201,162,75,.35)}
+.tab-zona i{font-size:.9rem}
+.tab-content{display:none;padding-top:40px}
+.tab-content.activa{display:block;animation:fadeIn .6s ease}
+
+/* ---------- TARJETAS DE LUGAR MEJORADAS ---------- */
+.grid-lugares{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px;margin-top:40px}
+.tarjeta-lugar{background:#fffdf8;border-radius:20px;overflow:hidden;box-shadow:0 18px 45px rgba(29,36,32,.12);transition:transform .6s var(--ease-lujo),box-shadow .6s var(--ease-lujo);position:relative;display:flex;flex-direction:column}
+.tarjeta-lugar:hover{transform:translateY(-14px);box-shadow:0 35px 70px rgba(29,36,32,.22)}
+.foto-lugar{position:relative;height:320px;overflow:hidden;cursor:zoom-in;background:var(--jungla)}
+.foto-lugar img{width:100%;height:100%;object-fit:cover;transition:transform 1.3s var(--ease-lujo)}
+.tarjeta-lugar:hover .foto-lugar img{transform:scale(1.1)}
+.foto-lugar .lupa{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(7,26,18,.5);opacity:0;transition:opacity .45s;color:var(--oro-claro);font-size:1.8rem;z-index:2}
+.foto-lugar:hover .lupa{opacity:1}
+.info-lugar{padding:32px 30px 36px;flex:1;display:flex;flex-direction:column}
+.info-lugar h3{color:var(--jungla);font-size:1.6rem;margin-bottom:16px;line-height:1.25}
+.info-lugar h3::after{content:'';display:block;width:44px;height:2px;background:var(--oro);margin-top:16px;transition:width .5s var(--ease-lujo)}
+.tarjeta-lugar:hover .info-lugar h3::after{width:90px}
+.info-lugar p{color:#5d6560;line-height:1.8;font-size:.96rem;font-weight:300;flex:1}
+.meta-lugar{display:flex;gap:20px;margin-top:24px;padding-top:20px;border-top:1px dashed rgba(29,36,32,.18);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--oro);font-weight:700;flex-wrap:wrap}
+.meta-lugar i{margin-right:8px}
+
+/* ---------- BOTÓN VOLVER ---------- */
+.btn-volver{position:fixed;bottom:36px;right:36px;z-index:9980;background:var(--jungla);color:var(--oro-claro);border:1px solid rgba(201,162,75,.6);padding:16px 30px;border-radius:50px;font-family:'Manrope';font-size:.8rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;display:none;align-items:center;gap:12px;box-shadow:0 18px 45px rgba(0,0,0,.4);transition:all .4s var(--ease-lujo)}
+.btn-volver.visible{display:inline-flex;animation:fadeIn .6s ease}
+.btn-volver:hover{background:var(--oro);color:var(--jungla);transform:translateY(-5px)}
+
+/* ---------- LIGHTBOX MEJORADO ---------- */
+#lightbox{position:fixed;inset:0;z-index:99995;background:rgba(7,26,18,.96);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;flex-direction:column;gap:22px;padding:5vh 5vw}
+#lightbox.abierto{display:flex;animation:fadeIn .35s ease}
+#lightbox img{max-width:min(1200px,92vw);max-height:82vh;border-radius:16px;box-shadow:0 40px 100px rgba(0,0,0,.7);animation:zoomFoto .5s var(--ease-lujo);object-fit:contain;background:#000}
+@keyframes zoomFoto{from{transform:scale(.86);opacity:0}to{transform:scale(1);opacity:1}}
+#lightbox .pie{color:var(--oro-claro);letter-spacing:.3em;text-transform:uppercase;font-size:.75rem;font-weight:700;text-align:center;max-width:600px;line-height:1.6}
+#lightbox .cerrar{position:absolute;top:30px;right:34px;width:58px;height:58px;border-radius:50%;border:1px solid rgba(201,162,75,.6);background:transparent;color:var(--oro-claro);font-size:1.3rem;cursor:pointer;transition:all .35s}
+#lightbox .cerrar:hover{background:var(--oro);color:var(--jungla);transform:rotate(90deg)}
+#lightbox .nav-lb{position:absolute;top:50%;transform:translateY(-50%);width:58px;height:58px;border-radius:50%;border:1px solid rgba(201,162,75,.6);background:rgba(7,26,18,.5);color:var(--oro-claro);font-size:1.3rem;cursor:pointer;transition:all .35s;display:flex;align-items:center;justify-content:center}
+#lightbox .nav-lb:hover{background:var(--oro);color:var(--jungla)}
+#lightbox .nav-lb.prev{left:30px}
+#lightbox .nav-lb.next{right:30px}
+
+/* ---------- VIDEOS CON SCROLL HORIZONTAL ---------- */
+.seccion-videos{background:linear-gradient(180deg,var(--crema) 0%,#e8dcc4 100%);position:relative;overflow:hidden}
+.seccion-videos::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--oro),transparent)}
+.seccion-videos::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--oro),transparent)}
+.videos-scroll-wrapper{position:relative;padding:40px 0}
+.videos-scroll-container{display:flex;gap:32px;overflow-x:auto;overflow-y:hidden;padding:30px 5vw 40px 5vw;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--oro) rgba(201,162,75,.15)}
+.videos-scroll-container::-webkit-scrollbar{height:10px}
+.videos-scroll-container::-webkit-scrollbar-track{background:rgba(201,162,75,.15);border-radius:10px}
+.videos-scroll-container::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--oro),#8a6a25);border-radius:10px}
+.videos-scroll-container::-webkit-scrollbar-thumb:hover{background:var(--oro-claro)}
+.video-card{flex:0 0 auto;width:580px;background:#fffdf8;border-radius:22px;overflow:hidden;box-shadow:0 20px 50px rgba(29,36,32,.15);transition:transform .6s var(--ease-lujo),box-shadow .6s var(--ease-lujo);scroll-snap-align:start;position:relative}
+.video-card:hover{transform:translateY(-12px) scale(1.02);box-shadow:0 35px 80px rgba(29,36,32,.25)}
+.video-wrapper{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000}
+.video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.video-info{padding:28px 30px 32px}
+.video-info h4{color:var(--jungla);font-size:1.25rem;margin-bottom:12px;font-family:'Playfair Display',serif;line-height:1.35}
+.video-info p{color:#5d6560;font-size:.92rem;line-height:1.7;font-weight:300}
+.video-badge{display:inline-block;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--jungla);background:var(--oro);padding:5px 14px;border-radius:24px;font-weight:800;margin-bottom:14px}
+.scroll-arrows{position:absolute;top:50%;transform:translateY(-50%);display:flex;gap:12px;z-index:5}
+.scroll-arrows.left{left:20px}
+.scroll-arrows.right{right:20px}
+.scroll-arrow-btn{width:50px;height:50px;border-radius:50%;border:1px solid rgba(201,162,75,.6);background:rgba(7,26,18,.7);color:var(--oro-claro);font-size:1.1rem;cursor:pointer;transition:all .35s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px)}
+.scroll-arrow-btn:hover{background:var(--oro);color:var(--jungla);transform:scale(1.1)}
+
+/* ---------- GRID DE VIDEOS ---------- */
+.grid-videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:32px;margin-top:50px}
+.video-card-grid{background:#fffdf8;border-radius:20px;overflow:hidden;box-shadow:0 18px 45px rgba(29,36,32,.12);transition:transform .6s var(--ease-lujo),box-shadow .6s var(--ease-lujo)}
+.video-card-grid:hover{transform:translateY(-10px);box-shadow:0 30px 60px rgba(29,36,32,.2)}
+.video-card-grid .video-wrapper{padding-bottom:56.25%}
+.video-card-grid .video-info{padding:24px 28px 28px}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--jungla);color:rgba(246,241,231,.7);padding:80px 5vw 36px;position:relative;overflow:hidden}
+footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--oro),transparent)}
+.footer-grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:50px;padding-bottom:56px;border-bottom:1px solid rgba(246,241,231,.1)}
+.footer-grid h4{color:var(--crema);font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:22px}
+.footer-grid p{font-weight:300;line-height:1.9;font-size:.92rem}
+.footer-grid a{display:block;color:rgba(246,241,231,.7);text-decoration:none;padding:7px 0;font-size:.9rem;transition:all .3s;cursor:pointer}
+.footer-grid a:hover{color:var(--oro);padding-left:10px}
+.redes{display:flex;gap:14px;margin-top:24px}
+.redes a{width:44px;height:44px;border:1px solid rgba(201,162,75,.45);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--oro-claro);transition:all .4s var(--ease-lujo);padding:0}
+.redes a:hover{background:var(--oro);color:var(--jungla);transform:translateY(-6px) rotate(8deg);padding-left:0}
+.copy{max-width:1400px;margin:0 auto;padding-top:30px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.78rem;letter-spacing:.14em}
+.copy b{color:var(--oro)}
+
+/* ---------- REVELADO AL SCROLL ---------- */
+[data-anim]{opacity:0;transform:translateY(46px);transition:opacity 1s var(--ease-lujo),transform 1s var(--ease-lujo);transition-delay:var(--d,0s)}
+[data-anim].in{opacity:1;transform:none}
+[data-anim="izq"]{transform:translateX(-60px)}
+[data-anim="der"]{transform:translateX(60px)}
+[data-anim="zoom"]{transform:scale(.88)}
+[data-anim].in{transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  [data-anim]{opacity:1;transform:none}
+}
+
+@media(max-width:768px){
+  .grid-videos{grid-template-columns:1fr}
+  .tabs-zonas{flex-direction:row;width:100%;border-radius:16px}
+  .tab-zona{padding:12px 20px;font-size:.72rem;justify-content:center}
+  .video-card{width:85vw;max-width:500px}
+  .galeria-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .scroll-arrows{display:none}
+  .grid-lugares{grid-template-columns:1fr;gap:24px}
+}
+
+@media(max-width:480px){
+  .galeria-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .grid-lugares{grid-template-columns:1fr}
+  .video-card{width:90vw}
+}
+
+
+/* ============================================================
+   MEJORAS DE FOTOGRAFÍA, PORTADA Y VIDEOS EN LA MISMA PÁGINA
+============================================================ */
+.hero-bg img{object-position:center 45%;filter:saturate(1.05) contrast(1.03)}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 42%,transparent 0%,rgba(4,19,13,.14) 55%,rgba(4,19,13,.48) 100%)}
+.hero-contenido{filter:drop-shadow(0 10px 34px rgba(0,0,0,.18))}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:"✦";font-size:.65rem;color:var(--oro)}
+.foto-lugar img,.galeria-item img,.tarjeta-macro img{background:linear-gradient(135deg,#123f2a,#c9a24b)}
+.foto-lugar,.galeria-item{isolation:isolate}
+.foto-lugar::before,.galeria-item::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border:1px solid rgba(232,213,164,.15);border-radius:inherit}
+.creditos-fotos{max-width:1400px;margin:22px auto 0;padding-top:22px;border-top:1px solid rgba(246,241,231,.1);font-size:.75rem;line-height:1.9;color:rgba(246,241,231,.62)}
+.creditos-fotos strong{color:var(--oro-claro)}
+.creditos-fotos a{display:inline;color:var(--oro-claro);text-decoration:underline;text-underline-offset:3px;padding:0}
+.creditos-fotos a:hover{color:#fff;padding:0}
+.video-wrapper{isolation:isolate}
+.video-thumb{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;display:block;overflow:hidden;background:linear-gradient(135deg,#071a12,#17462f);color:#fff;cursor:pointer;text-align:left;font-family:'Manrope',sans-serif}
+.video-thumb img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.16,1,.3,1),filter .5s ease;filter:brightness(.78) saturate(1.05)}
+.video-thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,26,18,.04),rgba(7,26,18,.25) 45%,rgba(7,26,18,.82));pointer-events:none}
+.video-thumb:hover img{transform:scale(1.06);filter:brightness(.95) saturate(1.12)}
+.video-thumb:focus-visible{outline:3px solid var(--oro-claro);outline-offset:-5px}
+.video-play{position:absolute;z-index:2;left:50%;top:50%;width:74px;height:74px;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,var(--oro-claro),var(--oro));color:var(--jungla);box-shadow:0 12px 42px rgba(0,0,0,.35);transition:transform .35s ease,box-shadow .35s ease}
+.video-play i{font-size:1.35rem;margin-left:4px}
+.video-thumb:hover .video-play{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 16px 48px rgba(201,162,75,.4)}
+.video-play-label{position:absolute;z-index:2;left:22px;bottom:18px;color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+.video-play-label i{color:var(--oro-claro);margin-right:8px}
+.video-wrapper.video-reproduciendo{background:#000}
+.video-wrapper.video-reproduciendo iframe{z-index:4;background:#000}
+.image-fallback-svg{object-fit:cover}
+@media(max-width:768px){
+  .hero{min-height:620px;height:92svh}
+  .hero-contenido{padding-top:58px}
+  .contenedor{padding:78px 5vw}
+  .video-card{width:88vw}
+  .video-play{width:62px;height:62px}
+  .video-play i{font-size:1.15rem}
+  .video-play-label{left:14px;bottom:14px;font-size:.63rem}
+  .creditos-fotos{font-size:.7rem}
+}
+@media(prefers-reduced-motion:reduce){.video-thumb img{transition:none}}
+
+
+
+/* ================= PORTADA CINEMATOGRÁFICA COPÁN ================= */
+#preloader{
+  background:linear-gradient(135deg,rgba(4,16,11,.96),rgba(7,38,25,.90)),url('https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp') center/cover;
+}
+#preloader::before{content:"";position:absolute;inset:22px;border:1px solid rgba(201,162,75,.27);pointer-events:none;}
+#preloader::after{content:"";position:absolute;width:min(72vw,620px);aspect-ratio:1;border:1px solid rgba(232,213,164,.08);border-radius:50%;box-shadow:0 0 0 28px rgba(232,213,164,.025),0 0 0 75px rgba(232,213,164,.02);animation:haloDorado 5s ease-in-out infinite;pointer-events:none;}
+#preloader>*{position:relative;z-index:1}
+.pre-logo{letter-spacing:.2em;text-shadow:0 8px 38px rgba(0,0,0,.45)}
+@keyframes haloDorado{0%,100%{transform:scale(.96);opacity:.55}50%{transform:scale(1.04);opacity:1}}
+.hero{isolation:isolate;background:#071a12}
+.hero::before{background:linear-gradient(180deg,rgba(3,16,10,.56) 0%,rgba(3,16,10,.20) 38%,rgba(3,16,10,.86) 100%)}
+.hero-contenido{max-width:1220px;padding-top:48px}
+.hero-eyebrow{font-size:.72rem;letter-spacing:.48em;color:#f1dfac;text-shadow:0 4px 25px #000}
+.hero h1.hero-title-lux{font-size:clamp(4.3rem,12vw,10rem);line-height:.82;letter-spacing:.045em;margin-top:12px;text-shadow:0 18px 55px rgba(0,0,0,.45)}
+.hero h1.hero-title-lux .linea:first-child i{font-size:1em;letter-spacing:.08em}
+.hero h1.hero-title-lux .linea:nth-child(2) i{font-size:.52em;letter-spacing:.22em;padding-top:20px;background:linear-gradient(100deg,#fff5d7,#d7b15f 46%,#fff3d1);-webkit-background-clip:text;background-clip:text;color:transparent;text-transform:uppercase;font-weight:400;font-style:normal}
+.hero-ornamento{display:flex;align-items:center;justify-content:center;gap:16px;margin:31px auto 20px;opacity:0;animation:aparecer 1.2s ease .9s forwards}
+.hero-ornamento span{width:clamp(38px,7vw,90px);height:1px;background:linear-gradient(90deg,transparent,#d8b65d)}
+.hero-ornamento span:last-child{transform:rotate(180deg)}
+.hero-ornamento i{color:#e8d5a4;font-size:.72rem;animation:diamanteFlota 3s ease-in-out infinite}
+@keyframes diamanteFlota{0%,100%{transform:rotate(0) scale(.9)}50%{transform:rotate(45deg) scale(1.18)}}
+.hero p.hero-subtitle{max-width:650px;margin:0 auto;color:rgba(255,250,237,.9);font-size:clamp(1.04rem,2vw,1.35rem);line-height:1.65;letter-spacing:.045em;animation:aparecer 1.25s ease 1.05s both}
+.hero-botones{margin-top:34px}
+.hero .btn-oro,.hero .btn-fantasma{backdrop-filter:blur(9px)}
+.hero-bg img{object-position:center 44%;filter:saturate(1.11) contrast(1.06)}
+.video-wrapper.video-reproduciendo{background:#030805}
+.video-wrapper iframe{background:#030805}
+.video-error-panel{position:absolute;inset:0;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;padding:24px;text-align:center;background:radial-gradient(ellipse at top,rgba(23,70,47,.98),rgba(4,17,12,.99));color:#f6f1e7}
+.video-error-panel>i{font-size:2rem;color:#e8d5a4}
+.video-error-panel p{max-width:380px;font-size:.9rem;line-height:1.7;color:rgba(246,241,231,.82)}
+.video-retry-btn{display:inline-flex;align-items:center;gap:10px;border:1px solid #c9a24b;border-radius:999px;background:linear-gradient(120deg,#e8d5a4,#c9a24b);color:#071a12;padding:12px 18px;font-family:'Manrope',sans-serif;font-weight:800;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease}
+.video-retry-btn:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(201,162,75,.27)}
+.video-wrapper.video-reproduciendo iframe{z-index:4}
+@media(max-width:700px){
+  .hero-contenido{padding:44px 5vw 0}
+  .hero-eyebrow{font-size:.61rem;letter-spacing:.25em}
+  .hero h1.hero-title-lux{font-size:clamp(3.4rem,16vw,6.4rem)}
+  .hero h1.hero-title-lux .linea:nth-child(2) i{font-size:.46em;letter-spacing:.14em;padding-top:16px}
+  .hero-ornamento{margin:25px auto 18px}
+  .hero p.hero-subtitle{max-width:340px;font-size:1rem}
+  .hero-botones{gap:12px;margin-top:28px}
+  .hero .btn-oro,.hero .btn-fantasma{padding:14px 20px;font-size:.69rem;letter-spacing:.11em}
+  #preloader::before{inset:12px}
+}
+@media(prefers-reduced-motion:reduce){#preloader::after,.hero-ornamento i{animation:none!important}}
+
+
+/* ============================================================
+   VIAJE CINEMATOGRÁFICO: SANTA CRUZ DE YOJOA → COPÁN RUINAS
+   Escenas fotográficas con movimiento, ruta aérea y opción de saltar.
+============================================================ */
+#viaje-cinematico{position:fixed;inset:0;z-index:100010;display:none;overflow:hidden;background:#06140e;color:#fffdf5;isolation:isolate}
+#viaje-cinematico.visible{display:block;animation:viajeEntrada .7s cubic-bezier(.16,1,.3,1) both}
+@keyframes viajeEntrada{from{opacity:0;filter:blur(9px)}to{opacity:1;filter:blur(0)}}
+body.viaje-activo{overflow:hidden!important}
+.escena-viaje{position:absolute;inset:0;visibility:hidden;opacity:0;overflow:hidden;transition:opacity 1.05s ease,visibility 1.05s;isolation:isolate}
+.escena-viaje.activa{visibility:visible;opacity:1;z-index:1}
+.escena-viaje>.foto-viaje{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;object-position:center;filter:saturate(1.13) contrast(1.06);transform:scale(1.055);transition:transform 8s cubic-bezier(.16,1,.3,1),filter 1.3s ease}
+.escena-viaje.activa>.foto-viaje{transform:scale(1.14);filter:saturate(1.16) contrast(1.06)}
+.escena-viaje .velo-viaje{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,17,11,.84) 0%,rgba(3,17,11,.55) 42%,rgba(3,17,11,.12) 100%),linear-gradient(0deg,rgba(3,17,11,.72),transparent 52%);z-index:1}
+.viaje-cabecera{position:absolute;z-index:20;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:clamp(18px,3vw,34px) clamp(20px,5vw,70px);pointer-events:none}
+.viaje-marca{font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;font-weight:800;color:#f4e3b6;text-shadow:0 2px 15px #000}
+.viaje-paso{font-size:.69rem;letter-spacing:.24em;color:rgba(255,255,255,.82);font-variant-numeric:tabular-nums}
+.viaje-saltar{position:absolute;z-index:30;right:clamp(18px,4vw,52px);top:72px;border:1px solid rgba(244,227,182,.55);background:rgba(4,20,13,.33);color:#fff7df;padding:12px 18px;border-radius:40px;font:700 .69rem 'Manrope',sans-serif;letter-spacing:.16em;text-transform:uppercase;backdrop-filter:blur(12px);cursor:pointer;transition:background .3s,transform .3s,border-color .3s}
+.viaje-saltar:hover{background:#c9a24b;color:#071a12;border-color:#c9a24b;transform:translateY(-2px)}
+.viaje-linea-tiempo{position:absolute;z-index:30;top:58px;left:clamp(20px,5vw,70px);right:clamp(20px,5vw,70px);height:2px;background:rgba(255,255,255,.22);overflow:hidden}
+.viaje-linea-tiempo span{display:block;width:0;height:100%;background:linear-gradient(90deg,#c9a24b,#fff0c3);box-shadow:0 0 16px rgba(232,213,164,.7)}
+.viaje-copy{position:absolute;z-index:5;left:clamp(26px,9vw,140px);top:50%;width:min(650px,78vw);transform:translateY(-43%);padding-top:28px}
+.viaje-supra{display:flex;align-items:center;gap:14px;color:#edcf82;font-size:.68rem;letter-spacing:.42em;text-transform:uppercase;font-weight:800;margin-bottom:25px;opacity:0;transform:translateY(16px)}
+.escena-viaje.activa .viaje-supra{animation:viajeTexto .85s .25s cubic-bezier(.16,1,.3,1) forwards}
+.viaje-supra:before{content:'';width:42px;height:1px;background:#d7b760;box-shadow:0 0 12px rgba(215,183,96,.65)}
+.viaje-copy h2{font:900 clamp(2.65rem,7.2vw,7rem)/.95 'Playfair Display',serif;letter-spacing:-.035em;margin:0 0 23px;text-wrap:balance;text-shadow:0 12px 40px rgba(0,0,0,.36);opacity:0;transform:translateY(24px)}
+.escena-viaje.activa .viaje-copy h2{animation:viajeTexto 1s .38s cubic-bezier(.16,1,.3,1) forwards}
+.viaje-copy h2 em{display:block;color:#e7c56e;font-weight:400;font-style:italic;font-size:.62em;line-height:1.12;letter-spacing:.015em;margin-top:15px}
+.viaje-copy p{max-width:550px;margin:0;color:rgba(255,253,245,.86);font-size:clamp(.96rem,1.5vw,1.17rem);line-height:1.85;font-weight:400;text-shadow:0 3px 22px rgba(0,0,0,.4);opacity:0;transform:translateY(18px)}
+.escena-viaje.activa .viaje-copy p{animation:viajeTexto .9s .65s cubic-bezier(.16,1,.3,1) forwards}
+.viaje-sello{display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(232,213,164,.38);background:rgba(9,31,21,.38);backdrop-filter:blur(12px);border-radius:999px;padding:12px 17px;margin-top:28px;color:#fff1c9;font-size:.68rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;opacity:0;transform:translateY(12px)}
+.escena-viaje.activa .viaje-sello{animation:viajeTexto .8s .82s cubic-bezier(.16,1,.3,1) forwards}
+.viaje-sello i{color:#e0bd5e}
+@keyframes viajeTexto{to{opacity:1;transform:translateY(0)}}
+/* esfera decorativa con relieve y brillo */
+.viaje-globo{position:absolute;z-index:3;right:clamp(4vw,10vw,170px);top:52%;width:clamp(180px,25vw,370px);aspect-ratio:1;border-radius:50%;transform:translateY(-43%) rotate(-12deg);background:radial-gradient(circle at 30% 25%,rgba(115,177,143,.95),transparent 23%),radial-gradient(circle at 39% 38%,#4f8a67 0%,#174b38 32%,#0d2c26 62%,#061914 73%);box-shadow:inset -35px -15px 54px rgba(0,0,0,.62),inset 13px 7px 24px rgba(255,255,255,.15),0 0 0 1px rgba(232,213,164,.38),0 0 65px rgba(80,151,106,.2);opacity:0;}
+.escena-viaje.activa .viaje-globo{animation:globoAparece 1.2s .3s ease forwards,globoOrbita 12s 1.5s ease-in-out infinite alternate}
+.viaje-globo:before{content:'';position:absolute;inset:-10%;border:1px solid rgba(232,213,164,.28);border-radius:50%;transform:rotate(26deg) scaleY(.27);box-shadow:0 0 35px rgba(232,213,164,.08)}
+.viaje-globo:after{content:'';position:absolute;inset:0;border-radius:50%;background:linear-gradient(110deg,rgba(255,255,255,.2),transparent 27%,transparent 57%,rgba(0,0,0,.32) 86%);}
+.viaje-globo svg{width:100%;height:100%;position:absolute;inset:0;opacity:.78;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
+.viaje-globo .punto-globo{position:absolute;z-index:2;width:8px;height:8px;background:#fff1b7;border-radius:50%;box-shadow:0 0 0 6px rgba(232,213,164,.16),0 0 24px #e8d5a4;left:64%;top:64%;animation:pulsoGlobo 1.9s infinite}
+@keyframes globoAparece{from{opacity:0;transform:translate(20px,-38%) scale(.82) rotate(-22deg)}to{opacity:.97;transform:translate(0,-43%) scale(1) rotate(-12deg)}}
+@keyframes globoOrbita{to{transform:translateY(-47%) rotate(-3deg)}}
+@keyframes pulsoGlobo{50%{box-shadow:0 0 0 13px rgba(232,213,164,.04),0 0 34px #e8d5a4}}
+/* escena de embarque */
+.escena-embarque .velo-viaje{background:linear-gradient(90deg,rgba(3,17,11,.87) 0%,rgba(3,17,11,.48) 48%,rgba(3,17,11,.04) 100%),linear-gradient(0deg,rgba(3,17,11,.6),transparent 55%)}
+.escena-embarque>.foto-viaje{object-position:center 52%}
+.escena-embarque.activa>.foto-viaje{animation:acercamientoAvion 8s cubic-bezier(.16,1,.3,1) both}
+@keyframes acercamientoAvion{from{transform:scale(1.03) translateX(1%)}to{transform:scale(1.18) translateX(-2%)}}
+/* escena de vuelo */
+.escena-vuelo{background:linear-gradient(180deg,#0a2435 0%,#3b738b 35%,#a5c9ce 68%,#f1d9a2 100%)}
+.escena-vuelo:before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 66% 20%,rgba(255,255,255,.8),transparent 22%),linear-gradient(0deg,rgba(4,22,18,.36),transparent 50%)}
+.escena-vuelo .nube{position:absolute;z-index:1;width:44vw;height:13vw;min-height:100px;max-height:205px;border-radius:50%;background:rgba(255,255,255,.5);filter:blur(27px);box-shadow:0 15px 35px rgba(255,255,255,.2);opacity:.57;animation:nubesVuelan 17s linear infinite}
+.escena-vuelo .nube.n1{left:-12%;top:24%}.escena-vuelo .nube.n2{left:55%;top:62%;width:58vw;animation-duration:24s;animation-delay:-11s;opacity:.42}.escena-vuelo .nube.n3{left:24%;top:12%;width:27vw;height:8vw;animation-duration:30s;animation-delay:-8s;opacity:.36}
+@keyframes nubesVuelan{from{transform:translateX(-18vw)}to{transform:translateX(125vw)}}
+.escena-vuelo .velo-viaje{background:linear-gradient(90deg,rgba(5,22,29,.66),rgba(5,22,29,.08) 75%),linear-gradient(0deg,rgba(3,17,11,.5),transparent 65%)}
+.escena-vuelo .viaje-copy{top:43%;width:min(650px,76vw)}
+.ruta-aerea{position:absolute;z-index:4;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.ruta-aerea .ruta-base{fill:none;stroke:rgba(255,246,216,.42);stroke-width:2;stroke-dasharray:4 13;stroke-linecap:round}
+.ruta-aerea .ruta-dorada{fill:none;stroke:#f4d780;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 5px rgba(244,215,128,.85))}
+.escena-vuelo.activa .ruta-aerea .ruta-dorada{animation:dibujarRuta 3.5s .15s ease-out forwards}
+@keyframes dibujarRuta{to{stroke-dashoffset:0}}
+.avion-animado{position:absolute;z-index:7;left:8%;top:69%;width:clamp(65px,9vw,125px);height:auto;color:#fff9df;filter:drop-shadow(0 8px 12px rgba(0,0,0,.45));transform:rotate(-10deg);opacity:0}
+.escena-vuelo.activa .avion-animado{animation:avionCruza 4.9s .4s cubic-bezier(.4,.05,.55,.95) forwards}
+@keyframes avionCruza{0%{left:6%;top:70%;transform:rotate(-9deg) scale(.74);opacity:0}8%{opacity:1}35%{top:49%;transform:rotate(-3deg) scale(.94)}67%{top:40%;transform:rotate(2deg) scale(1.02)}90%{opacity:1}100%{left:79%;top:25%;transform:rotate(9deg) scale(.72);opacity:0}}
+.punto-ruta{position:absolute;z-index:6;padding:10px 14px;border:1px solid rgba(255,244,207,.45);border-radius:999px;background:rgba(3,25,27,.42);backdrop-filter:blur(12px);color:#fff4cd;font-size:.62rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+.punto-ruta.origen{left:5%;bottom:13%}.punto-ruta.destino{right:5%;top:15%}
+.punto-ruta i{color:#f4d780;margin-right:7px}
+/* llegada */
+.escena-llegada .velo-viaje{background:linear-gradient(90deg,rgba(3,17,11,.81) 0%,rgba(3,17,11,.35) 55%,rgba(3,17,11,.08) 100%),linear-gradient(0deg,rgba(3,17,11,.72),transparent 60%)}
+.escena-llegada .viaje-copy{left:clamp(26px,8vw,125px);top:51%}
+.escena-llegada .viaje-copy h2 em{font-size:.48em;letter-spacing:.04em}
+.escena-llegada .viaje-sello{background:rgba(201,162,75,.18);border-color:rgba(232,213,164,.55)}
+.viaje-destino-chip{position:absolute;z-index:6;right:clamp(26px,7vw,110px);bottom:clamp(26px,8vh,82px);display:flex;align-items:center;gap:15px;background:rgba(4,22,14,.48);backdrop-filter:blur(16px);border:1px solid rgba(232,213,164,.4);padding:17px 23px;border-radius:16px;box-shadow:0 16px 45px rgba(0,0,0,.2);opacity:0;transform:translateY(22px)}
+.escena-llegada.activa .viaje-destino-chip{animation:viajeTexto .9s 1s cubic-bezier(.16,1,.3,1) forwards}
+.viaje-destino-chip i{font-size:1.3rem;color:#e8d5a4}
+.viaje-destino-chip small{display:block;color:#d8bd74;font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;margin-bottom:4px}
+.viaje-destino-chip strong{display:block;color:#fff7e2;font:700 1rem 'Playfair Display',serif;letter-spacing:.03em}
+@media(max-width:800px){
+  .viaje-cabecera{padding-top:18px}.viaje-linea-tiempo{top:49px}.viaje-saltar{top:62px;padding:10px 13px;font-size:.59rem}
+  .viaje-copy{left:7vw;top:47%;width:86vw;padding-top:0}.viaje-copy h2{font-size:clamp(3rem,13vw,5.2rem);max-width:640px}.viaje-copy p{font-size:.96rem;max-width:460px}
+  .viaje-globo{width:clamp(150px,34vw,250px);right:-1vw;top:69%;opacity:.0}
+  .escena-viaje.activa .viaje-globo{opacity:.54}
+  .escena-vuelo .viaje-copy{top:34%;width:86vw}.avion-animado{top:70%}.punto-ruta{font-size:.54rem;letter-spacing:.1em;padding:9px 11px}.punto-ruta.origen{left:5%;bottom:11%}.punto-ruta.destino{right:4%;top:auto;bottom:22%}
+  .viaje-destino-chip{left:7vw;right:auto;bottom:6vh;padding:13px 17px}.escena-llegada .viaje-copy{top:43%}
+}
+@media(max-width:480px){
+  .viaje-marca{font-size:.55rem;letter-spacing:.2em}.viaje-paso{font-size:.57rem}.viaje-copy h2{font-size:clamp(2.8rem,14vw,4.3rem)}.viaje-supra{font-size:.56rem;letter-spacing:.27em;margin-bottom:19px}.viaje-copy p{font-size:.9rem;line-height:1.7}.viaje-sello{font-size:.56rem;letter-spacing:.1em;padding:10px 13px}.escena-embarque .velo-viaje{background:linear-gradient(90deg,rgba(3,17,11,.78),rgba(3,17,11,.25)),linear-gradient(0deg,rgba(3,17,11,.65),transparent 70%)}.escena-vuelo .viaje-copy{top:31%}.viaje-destino-chip strong{font-size:.9rem}
+}
+@media(prefers-reduced-motion:reduce){
+  #viaje-cinematico.visible,.escena-viaje.activa>.foto-viaje,.escena-viaje.activa .viaje-supra,.escena-viaje.activa .viaje-copy h2,.escena-viaje.activa .viaje-copy p,.escena-viaje.activa .viaje-sello,.escena-viaje.activa .viaje-globo,.escena-embarque.activa>.foto-viaje,.escena-vuelo.activa .ruta-aerea .ruta-dorada,.escena-vuelo.activa .avion-animado,.escena-llegada.activa .viaje-destino-chip{animation:none!important;transition:none!important;opacity:1;transform:none}
+}
+
+/* ============ MAPA-JUEGO Y SONIDOS DE LA RUTA ============ */
+.sonido-control{position:fixed;left:26px;bottom:28px;z-index:9981;display:inline-flex;align-items:center;gap:10px;padding:13px 18px;border:1px solid rgba(201,162,75,.58);border-radius:999px;background:rgba(7,26,18,.91);backdrop-filter:blur(14px);color:#f6f1e7;box-shadow:0 12px 34px rgba(0,0,0,.25);font:800 .68rem 'Manrope',sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:transform .25s ease,background .25s ease,border-color .25s ease}
+.sonido-control:hover{transform:translateY(-3px);background:#123f2a;border-color:var(--oro-claro)}
+.sonido-control i{color:var(--oro-claro);font-size:.95rem}
+.sonido-control[aria-pressed="false"]{color:rgba(246,241,231,.68);border-color:rgba(246,241,231,.25)}
+.sonido-control[aria-pressed="false"] i{color:rgba(246,241,231,.55)}
+.ruta-aventura{margin:68px 0 54px;padding:clamp(24px,4vw,48px);border:1px solid rgba(201,162,75,.34);border-radius:30px;background:radial-gradient(ellipse at 8% 0%,rgba(201,162,75,.12),transparent 35%),linear-gradient(135deg,#0b281b,#071a12 72%);color:var(--crema);box-shadow:0 28px 70px rgba(7,26,18,.17);overflow:hidden;position:relative}
+.ruta-aventura::before{content:"";position:absolute;inset:14px;border:1px solid rgba(232,213,164,.11);border-radius:21px;pointer-events:none}
+.ruta-cabecera{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:26px}
+.ruta-kicker{display:inline-flex;align-items:center;gap:10px;color:var(--oro-claro);font-size:.68rem;font-weight:800;letter-spacing:.3em;text-transform:uppercase}
+.ruta-kicker i{color:var(--oro)}
+.ruta-cabecera h3{font-size:clamp(1.8rem,4vw,3rem);line-height:1.05;margin-top:12px;color:#fff9e9}
+.ruta-cabecera p{max-width:520px;margin-top:12px;color:rgba(246,241,231,.72);font-size:.92rem;line-height:1.7}
+.ruta-bitacora{flex:0 0 auto;min-width:205px;padding:17px 19px;border:1px solid rgba(232,213,164,.22);border-radius:17px;background:rgba(255,255,255,.045)}
+.bitacora-linea{display:flex;justify-content:space-between;gap:16px;align-items:center;color:rgba(246,241,231,.76);font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.bitacora-linea strong{font:700 1.2rem 'Playfair Display',serif;color:var(--oro-claro);letter-spacing:0}
+.bitacora-track{height:5px;margin-top:12px;background:rgba(255,255,255,.12);border-radius:10px;overflow:hidden}
+.bitacora-track span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#bd8d35,#f0d58c);box-shadow:0 0 16px rgba(232,213,164,.45);transition:width .55s var(--ease-lujo)}
+.aventura-layout{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.72fr);gap:22px;align-items:stretch}
+.mapa-escenario{position:relative;aspect-ratio:1.55;min-height:370px;overflow:hidden;border-radius:22px;border:1px solid rgba(232,213,164,.23);background:#153c2d;box-shadow:inset 0 0 70px rgba(3,16,10,.34)}
+.mapa-arte{position:absolute;inset:0;width:100%;height:100%}
+.mapa-arte .linea-ruta{fill:none;stroke:#f3d77f;stroke-width:5;stroke-linecap:round;stroke-dasharray:3 15;filter:drop-shadow(0 0 5px rgba(243,215,127,.65));opacity:.88}
+.mapa-arte .rio-ruta{fill:none;stroke:#8bcbd0;stroke-width:16;stroke-linecap:round;opacity:.47}
+.mapa-arte .rio-brillo{fill:none;stroke:#c6eff0;stroke-width:3;stroke-linecap:round;stroke-dasharray:9 13;opacity:.65}
+.mapa-arte .brillo-mapa{animation:respirarMapa 5s ease-in-out infinite}
+@keyframes respirarMapa{50%{opacity:.55;transform:translateY(-7px)}}
+.mapa-etiqueta{position:absolute;z-index:2;left:20px;top:18px;padding:9px 13px;border:1px solid rgba(232,213,164,.35);border-radius:30px;background:rgba(5,25,17,.55);backdrop-filter:blur(8px);color:#f2dfaa;font-size:.59rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+.map-stop{--x:50%;--y:50%;position:absolute;z-index:3;left:var(--x);top:var(--y);display:flex;flex-direction:column;align-items:center;gap:7px;transform:translate(-50%,-50%);border:0;background:transparent;color:#fff9e8;cursor:pointer;text-align:center;font:800 .64rem 'Manrope',sans-serif;letter-spacing:.07em;text-shadow:0 2px 7px rgba(0,0,0,.75);min-width:80px}
+.map-stop .stop-pin{width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(255,248,220,.77);border-radius:50% 50% 50% 12px;transform:rotate(-45deg);background:linear-gradient(135deg,#f2d889,#bd8b34);color:#082015;box-shadow:0 7px 22px rgba(0,0,0,.38),0 0 0 5px rgba(255,255,255,.12);transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+.map-stop .stop-pin i{transform:rotate(45deg);font-size:1rem}
+.map-stop .stop-name{max-width:118px;padding:5px 8px;border-radius:8px;background:rgba(5,23,16,.48);backdrop-filter:blur(5px);line-height:1.25}
+.map-stop:hover .stop-pin,.map-stop:focus-visible .stop-pin,.map-stop.activa .stop-pin{transform:rotate(-45deg) scale(1.13);box-shadow:0 0 0 7px rgba(232,213,164,.2),0 8px 26px rgba(0,0,0,.46)}
+.map-stop.activa .stop-pin{background:linear-gradient(135deg,#fff0bb,#d9ad51)}
+.map-stop.visitada .stop-pin{background:linear-gradient(135deg,#b9dc9d,#6a9c60);color:#092216}
+.map-stop:focus-visible{outline:2px solid #fff0bb;outline-offset:7px;border-radius:12px}
+.map-stop.visitada::after{content:"✓";position:absolute;top:-7px;right:12px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#e9f1ce;color:#12301b;text-shadow:none;font-size:.72rem;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.panel-parada{display:flex;flex-direction:column;min-height:100%;overflow:hidden;border:1px solid rgba(232,213,164,.22);border-radius:22px;background:linear-gradient(150deg,rgba(255,255,255,.08),rgba(255,255,255,.025))}
+.panel-parada-foto{position:relative;height:205px;overflow:hidden;background:linear-gradient(135deg,#17462f,#987630)}
+.panel-parada-foto::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,26,18,.54),transparent 62%);pointer-events:none}
+.panel-parada-foto img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease-lujo)}
+.panel-parada:hover .panel-parada-foto img{transform:scale(1.06)}
+.panel-parada-contenido{display:flex;flex:1;flex-direction:column;padding:21px 22px 22px}
+.panel-parada-tag{display:inline-flex;align-items:center;gap:8px;color:var(--oro-claro);font-size:.61rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+.panel-parada h4{margin-top:9px;color:#fff8e6;font:700 1.5rem/1.13 'Playfair Display',serif}
+.panel-parada p{margin-top:12px;color:rgba(246,241,231,.74);font-size:.84rem;line-height:1.7}
+.parada-acciones{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:19px}
+.parada-acciones button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 15px;font:800 .62rem 'Manrope',sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:transform .25s ease,background .25s ease}
+.parada-acciones button:hover{transform:translateY(-2px)}
+#mapa-visitar{border:1px solid #e3c477;background:linear-gradient(120deg,#e8d5a4,#c9a24b);color:#092015}
+#mapa-ver-lugar{border:1px solid rgba(232,213,164,.35);background:rgba(255,255,255,.04);color:#f8efd6}
+#mapa-visitar.completada{border-color:#a7d098;background:#355d3a;color:#f4f5dc}
+.ruta-pie{position:relative;z-index:1;margin-top:18px;color:rgba(246,241,231,.57);font-size:.68rem;letter-spacing:.06em;line-height:1.6}
+.ruta-pie i{color:var(--oro-claro);margin-right:6px}
+.tarjeta-lugar.aventura-resaltada{outline:3px solid #c9a24b;outline-offset:5px;transform:translateY(-6px);transition:outline .25s ease,transform .25s ease}
+@media(max-width:900px){.aventura-layout{grid-template-columns:1fr}.mapa-escenario{aspect-ratio:1.45}.panel-parada{display:grid;grid-template-columns:minmax(180px,.8fr) 1.2fr;min-height:220px}.panel-parada-foto{height:100%;min-height:220px}.panel-parada-contenido{padding:20px}.parada-acciones{margin-top:16px}}
+@media(max-width:620px){.sonido-control{left:14px;bottom:16px;padding:12px 14px;font-size:.59rem}.sonido-control .sonido-texto{display:none}.ruta-aventura{margin:44px 0 40px;padding:22px 15px;border-radius:22px}.ruta-aventura::before{inset:8px;border-radius:16px}.ruta-cabecera{display:block}.ruta-cabecera h3{font-size:2rem}.ruta-bitacora{margin-top:19px;max-width:none}.aventura-layout{gap:14px}.mapa-escenario{min-height:350px;aspect-ratio:.91}.map-stop{min-width:65px;gap:5px;font-size:.57rem}.map-stop .stop-pin{width:38px;height:38px}.map-stop .stop-name{max-width:88px;padding:4px 6px;font-size:.54rem}.mapa-etiqueta{left:12px;top:12px;font-size:.52rem}.panel-parada{display:flex}.panel-parada-foto{height:185px;min-height:0}.panel-parada-contenido{padding:18px}.parada-acciones button{flex:1}.ruta-pie{font-size:.64rem}.btn-volver{right:14px;bottom:16px;padding:13px 16px;font-size:.62rem}}
+@media(prefers-reduced-motion:reduce){.mapa-arte .brillo-mapa{animation:none}.map-stop .stop-pin,.panel-parada-foto img{transition:none}}
+/* Audio real de aves: controles del santuario */
+.botones-aves{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.botones-aves[hidden]{display:none}
+.btn-ave-audio{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(232,213,164,.38);border-radius:999px;padding:10px 12px;background:rgba(255,255,255,.06);color:#fff4d1;font:800 .59rem 'Manrope',sans-serif;letter-spacing:.04em;cursor:pointer;transition:background .25s ease,transform .25s ease}
+.btn-ave-audio:hover{transform:translateY(-2px);background:rgba(201,162,75,.2)}
+.btn-ave-audio i{color:var(--oro-claro)}
+.ruta-creditos{position:relative;z-index:1;margin-top:10px;color:rgba(246,241,231,.46);font-size:.61rem;line-height:1.65}
+.ruta-creditos a{color:rgba(232,213,164,.75);text-underline-offset:2px}
+/* Música catracha y movimiento cinematográfico de fotografías */
+.musica-hondurena{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.95fr);gap:22px;align-items:center;margin:0 0 26px;padding:clamp(22px,3vw,34px);border:1px solid rgba(201,162,75,.34);border-radius:24px;background:radial-gradient(ellipse at 8% 0%,rgba(201,162,75,.13),transparent 42%),linear-gradient(135deg,#102d20,#071a12 78%);color:var(--crema);box-shadow:0 18px 45px rgba(7,26,18,.14);overflow:hidden}
+.musica-kicker{display:inline-flex;align-items:center;gap:9px;color:var(--oro-claro);font-size:.64rem;font-weight:800;letter-spacing:.23em;text-transform:uppercase}
+.musica-hondurena h3{margin-top:10px;color:#fff9e9;font:700 clamp(1.55rem,3vw,2.35rem)/1.12 'Playfair Display',serif}
+.musica-hondurena p{max-width:560px;margin-top:10px;color:rgba(246,241,231,.72);font-size:.83rem;line-height:1.7}
+.musica-controles{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:17px}
+.btn-musica{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid #e3c477;border-radius:999px;padding:12px 16px;background:linear-gradient(120deg,#e8d5a4,#c9a24b);color:#092015;font:800 .65rem 'Manrope',sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:transform .25s ease,filter .25s ease}
+.btn-musica:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.enlace-musica{color:rgba(232,213,164,.86);font-size:.7rem;text-underline-offset:3px}
+.musica-reproductor{overflow:hidden;border:1px solid rgba(232,213,164,.28);border-radius:16px;background:#121212;box-shadow:0 14px 30px rgba(0,0,0,.24);min-height:152px}
+.musica-reproductor iframe{display:block;width:100%!important;height:152px!important;min-height:152px;border:0;border-radius:12px}
+@keyframes derivaFoto{0%{object-position:47% 44%}100%{object-position:55% 56%}}
+@keyframes respirarFoto{0%{scale:1.015}100%{scale:1.075}}
+@keyframes derivaFondo{0%{background-position:47% 48%}100%{background-position:54% 54%}}
+.foto-lugar img,.galeria-item img,.tarjeta-macro img,.panel-parada-foto img{animation:derivaFoto 22s ease-in-out infinite alternate,respirarFoto 24s ease-in-out infinite alternate}
+.galeria-item:nth-child(2n) img,.foto-lugar:nth-child(2n) img{animation-duration:27s;animation-direction:alternate-reverse}
+.header-zona .fondo-zona{animation:derivaFondo 30s ease-in-out infinite alternate}
+.escena-con-aves{position:relative;isolation:isolate}
+.bandada-viva{position:absolute;z-index:1;inset:0;overflow:hidden;pointer-events:none}
+.bandada-viva i{position:absolute;left:-9%;top:24%;color:rgba(255,248,220,.96);font-size:clamp(1rem,2.2vw,1.8rem);filter:drop-shadow(0 3px 5px rgba(0,0,0,.55));animation:vueloBandada 11s ease-in-out infinite}
+.bandada-viva i:nth-child(2){top:39%;font-size:clamp(.8rem,1.6vw,1.35rem);animation-delay:-4s;animation-duration:13s}
+.bandada-viva i:nth-child(3){top:17%;font-size:clamp(.7rem,1.3vw,1.15rem);animation-delay:-7s;animation-duration:15s}
+@keyframes vueloBandada{0%{left:-9%;opacity:0;transform:translateY(4px) scale(.7) rotate(-10deg)}12%{opacity:.92}48%{transform:translateY(-17px) scale(1.05) rotate(7deg)}86%{opacity:.9}100%{left:108%;opacity:0;transform:translateY(10px) scale(.78) rotate(-4deg)}}
+@media(max-width:760px){.musica-hondurena{grid-template-columns:1fr;gap:18px}.musica-reproductor iframe{height:152px!important;min-height:152px}}
+@media(prefers-reduced-motion:reduce){.foto-lugar img,.galeria-item img,.tarjeta-macro img,.panel-parada-foto img,.header-zona .fondo-zona,.bandada-viva i{animation:none!important}}
+/* Portada de bienvenida: danza hondureña, Polache y revelación de Copán */
+#preloader{display:grid;place-items:center;overflow:auto;padding:26px 20px;background:linear-gradient(110deg,rgba(4,16,11,.91),rgba(7,38,25,.78)),url('https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp') center/cover;transition:transform .95s cubic-bezier(.76,0,.24,1),opacity .6s ease}
+#preloader.adios{transform:translateY(-101%);opacity:1}
+.intro-presentacion{position:relative;z-index:2;width:min(1120px,100%);margin:auto;padding:clamp(22px,4vw,48px);border:1px solid rgba(232,213,164,.34);border-radius:30px;background:linear-gradient(135deg,rgba(6,26,18,.9),rgba(8,38,27,.83));box-shadow:0 35px 110px #0006;backdrop-filter:blur(12px)}
+.intro-sobrelinea{display:flex;align-items:center;gap:10px;color:#ead49e;font-size:.65rem;font-weight:800;letter-spacing:.23em}
+.intro-punto{width:8px;height:8px;border-radius:50%;background:#da5948;box-shadow:0 0 14px #da5948;animation:latidoIntro 1.5s infinite}
+.intro-cabecera{display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(22px,4vw,58px);align-items:center;margin-top:20px}
+.intro-texto .pre-logo{font-size:clamp(1.15rem,2vw,1.55rem);letter-spacing:.16em}
+.intro-texto .pre-logo i{transform:none;animation:none}
+.intro-ruta{margin-top:20px;color:#f4d985;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.intro-ruta span{padding:0 7px;color:#db6548}
+.intro-texto h1{margin-top:13px;color:#fff9e9;font:600 clamp(2.15rem,4.9vw,4.4rem)/1.03 'Playfair Display',serif;letter-spacing:-.035em}
+.intro-texto h1 em{color:#e8d5a4;font-weight:500}
+.intro-descripcion{max-width:560px;margin-top:17px;color:#f6f1e7c7;font-size:clamp(.85rem,1.1vw,1rem);line-height:1.7}
+.intro-saludo{display:flex;gap:10px;margin-top:18px;color:#e2c778;font-size:.7rem;font-weight:800}
+.intro-danza{position:relative;isolation:isolate;overflow:hidden;min-height:290px;border:1px solid #e8d5a440;border-radius:23px;background:radial-gradient(ellipse at 50% 55%,#ecb95a30,transparent 54%),linear-gradient(145deg,#225c42a6,#051811cc)}
+.intro-danza:after{content:"";position:absolute;z-index:-1;left:7%;right:7%;bottom:32px;height:24px;border-radius:50%;background:#edc1672b;filter:blur(20px)}
+.danza-etiqueta{position:absolute;z-index:1;top:18px;left:0;right:0;text-align:center;color:#eddda9;font-size:.55rem;font-weight:800;letter-spacing:.15em}
+.danza-svg{position:absolute;inset:25px 0 4px;width:100%;height:calc(100% - 29px)}
+.bailarina,.bailarin{transform-box:fill-box;transform-origin:center bottom;animation:pasoBaile 1.35s ease-in-out infinite alternate}
+.bailarin{animation-name:pasoBaileDos;animation-delay:-.55s}
+.bailarina path:nth-of-type(3){transform-box:fill-box;transform-origin:top center;animation:faldaGira 1.4s ease-in-out infinite alternate}
+.intro-danza>p{position:absolute;bottom:12px;left:0;right:0;text-align:center;color:#fff9e9c2;font:italic .84rem 'Playfair Display',serif}
+.intro-pie{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:center;margin-top:24px;padding-top:22px;border-top:1px solid #e8d5a42b}
+.intro-musica{display:grid;grid-template-columns:minmax(160px,.62fr) minmax(250px,1fr);gap:12px;align-items:center}
+.intro-musica-titulo{display:flex;align-items:center;gap:12px;color:#fff9e9}
+.intro-musica-titulo strong,.intro-musica-titulo small{display:block}
+.intro-musica-titulo strong{font-size:.82rem}
+.intro-musica-titulo small{margin-top:5px;color:#f6f1e79e;font-size:.65rem}
+.intro-icono-musica{display:grid;place-items:center;width:39px;height:39px;border:1px solid #e8d5a45a;border-radius:50%;color:#f4d985;background:#e8d5a41a}
+.intro-musica .musica-reproductor{min-height:152px}
+.intro-reproducir{grid-column:1/-1;justify-self:start;padding:10px 14px}
+.intro-acceso{padding-left:20px;border-left:1px solid #e8d5a42e}
+.intro-acceso>p{color:#fff9e9;font-size:.76rem;line-height:1.65}
+.intro-acceso>p span{color:#f6f1e79e;font-size:.68rem}
+.intro-entrar{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:12px;padding:14px 18px;border:1px solid #f4d985;border-radius:999px;background:linear-gradient(120deg,#f4d985,#c99543);color:#14281c;font:900 .68rem 'Manrope',sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 28px #c9a24b38;transition:transform .25s,filter .25s}
+.intro-entrar:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.intro-acceso>small{display:block;margin-top:9px;color:#f6f1e78f;font-size:.61rem}
+.explosion-copan{position:fixed;z-index:3;inset:0;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 55%,#fff9d5 0%,#f3c96f 4%,#ffe7a5c7 11%,#f3b5452e 24%,transparent 44%)}
+#preloader.explosion-activa .explosion-copan{animation:estallidoCopan 1.25s cubic-bezier(.12,.68,.22,1) forwards}
+.danza-destello{position:absolute;width:180px;height:180px;border-radius:50%;background:#f6da8a1f;filter:blur(46px);animation:respiraDanza 4s infinite alternate}
+@keyframes pasoBaile{to{transform:rotate(5deg) translateY(-6px)}}
+@keyframes pasoBaileDos{to{transform:rotate(-5deg) translateY(3px)}}
+@keyframes faldaGira{to{transform:rotate(6deg) skewY(2deg)}}
+@keyframes respiraDanza{to{transform:scale(1.16);opacity:1}}
+@keyframes latidoIntro{50%{transform:scale(1.35);box-shadow:0 0 22px #da5948}}
+@keyframes estallidoCopan{0%{opacity:0;transform:scale(.08)}18%{opacity:1}62%{opacity:.93;transform:scale(1.25)}100%{opacity:0;transform:scale(2.1)}}
+@media(max-width:800px){#preloader{padding:14px}.intro-presentacion{padding:24px 20px}.intro-cabecera{grid-template-columns:1fr;gap:20px;margin-top:14px}.intro-danza{min-height:225px;max-height:255px}.intro-pie{grid-template-columns:1fr;gap:17px;margin-top:18px;padding-top:17px}.intro-acceso{padding:0;border:0}.intro-musica{grid-template-columns:minmax(130px,.55fr) minmax(210px,1fr)}}
+@media(max-width:520px){.intro-sobrelinea{font-size:.53rem;letter-spacing:.15em}.intro-presentacion{padding:21px 16px}.intro-cabecera{gap:16px}.intro-ruta{font-size:.6rem}.intro-texto h1{font-size:2.15rem}.intro-descripcion{font-size:.81rem;line-height:1.6}.intro-danza{min-height:205px}.danza-etiqueta{font-size:.47rem}.intro-musica{grid-template-columns:1fr}.intro-reproducir{grid-column:auto}}
+@media(max-height:760px) and (min-width:801px){#preloader{place-items:start center}.intro-danza{min-height:240px}}
+@media(prefers-reduced-motion:reduce){.intro-punto,.bailarina,.bailarin,.bailarina path:nth-of-type(3),.danza-destello{animation:none!important}#preloader.explosion-activa .explosion-copan{animation-duration:.4s}}
+/* Video de danza en gran formato; inicia en silencio para permitir autoplay */
+.intro-cabecera{grid-template-columns:.82fr 1.18fr}
+.intro-danza-video{aspect-ratio:16/9;min-height:clamp(320px,36vw,480px);max-height:480px;background:#071a12;box-shadow:0 24px 60px #0006}
+.intro-danza-video:after{inset:0;z-index:1;height:auto;border-radius:inherit;background:linear-gradient(180deg,#03140f78,transparent 29%,transparent 68%,#03140f65);filter:none;pointer-events:none}
+.danza-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#071a12}
+.danza-etiqueta{left:18px;right:auto;padding:9px 12px;border:1px solid #fff5df50;border-radius:999px;background:#06150fb8;backdrop-filter:blur(8px);font-size:.58rem}
+.danza-fuente{position:absolute;z-index:2;right:14px;bottom:46px;padding:6px 9px;border-radius:7px;background:#06150fbd;color:#fff9e9c9;font-size:.58rem;text-decoration:none}
+.danza-fuente:hover{color:#f4d985}
+@media(max-width:800px){.intro-cabecera{grid-template-columns:1fr}.intro-danza-video{min-height:clamp(245px,55vw,400px)}}
+@media(max-width:520px){.intro-danza-video{min-height:260px}.danza-etiqueta{left:10px;top:10px;font-size:.5rem}.danza-fuente{right:9px;bottom:42px;font-size:.52rem}}
+</style>
+</head>
+<body>
+<button class="sonido-control" id="sonido-control" type="button" aria-pressed="true" aria-label="Silenciar sonidos" onclick="alternarSonido()"><i class="fas fa-volume-high" aria-hidden="true"></i><span class="sonido-texto" id="sonido-etiqueta">Sonidos de la experiencia activados</span></button>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+<div id="preloader" role="dialog" aria-modal="true" aria-label="Presentación de bienvenida a Copán">
+  <div class="intro-presentacion">
+    <div class="intro-sobrelinea"><span class="intro-punto"></span> HONDURAS · UN VIAJE QUE SE SIENTE</div>
+    <div class="intro-cabecera">
+      <div class="intro-texto">
+        <div aria-hidden="true" class="pre-logo"><i>C</i><i>O</i><i>P</i><i>Á</i><i>N</i> <span>Mágico</span></div>
+        <p class="intro-ruta">De Santa Cruz de Yojoa <span>✦</span> a Copán Ruinas</p>
+        <h1>Una aventura que<br><em>despierta la imaginación</em></h1>
+        <p class="intro-descripcion">Súbete a este viaje por montañas, selva y piedra ancestral. Muy pronto aparecerán ante ti las ruinas mayas, las guacamayas, las aguas termales y la cultura viva de Copán.</p>
+        <div class="intro-saludo"><i class="fas fa-location-dot"></i> Salimos desde Santa Cruz de Yojoa, Honduras</div>
+      </div>
+      <div class="intro-danza intro-danza-video">
+        <video class="danza-video" autoplay muted loop playsinline controls preload="auto" aria-label="Video de danza folklórica en un escenario al aire libre">
+          <source src="https://videos.pexels.com/video-files/35606557/15089728_1920_1080_60fps.mp4" type="video/mp4">
+          Tu navegador no pudo cargar este video. <a href="https://www.pexels.com/video/traditional-folk-dance-on-outdoor-stage-35606557/" target="_blank" rel="noopener noreferrer">Abrir el video de danza</a>.
+        </video>
+        <div class="danza-etiqueta"><span>✺</span> DANZA FOLKLÓRICA EN VIVO <span>✺</span></div>
+        <a class="danza-fuente" href="https://www.pexels.com/video/traditional-folk-dance-on-outdoor-stage-35606557/" target="_blank" rel="noopener noreferrer">Video: Kshitij Kumar · Pexels</a>
+      </div>
+    </div>
+    <div class="intro-pie">
+      <div class="intro-musica">
+        <div class="intro-musica-titulo"><span class="intro-icono-musica"><i class="fas fa-music"></i></span><div><strong>La música de Polache</strong><small>Una canción hondureña para comenzar el viaje</small></div></div>
+        <div class="musica-reproductor"><div id="spotify-embed" aria-label="Reproductor oficial de Spotify de Polache"></div></div>
+        <button class="btn-musica intro-reproducir" type="button" onclick="iniciarMusicaHondurena()"><i class="fas fa-play"></i> Reproducir música</button>
+      </div>
+      <div class="intro-acceso">
+        <p>La presentación se abrirá sola en unos segundos.<br><span>Si no escuchas la canción, tócala en el reproductor.</span></p>
+        <button class="intro-entrar" type="button" onclick="finalizarPresentacion()"><span>Descubrir Copán</span><i class="fas fa-arrow-right"></i></button>
+        <small>Al entrar, la música se detiene y comienza tu recorrido.</small>
+      </div>
+    </div>
+  </div><div class="explosion-copan" aria-hidden="true"></div>
+</div>
+<div id="curtain"><div class="emblema">Copán Mágico</div></div>
+
+<!-- VIAJE CINEMATOGRÁFICO: se muestra al entrar a las atracciones de Copán -->
+<div id="viaje-cinematico" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Viaje cinematográfico desde Santa Cruz de Yojoa hasta Copán Ruinas">
+  <div class="viaje-cabecera"><span class="viaje-marca">COPÁN MÁGICO <span aria-hidden="true">·</span> UNA EXPERIENCIA</span><span class="viaje-paso" id="viaje-paso">01 / 04</span></div>
+  <div class="viaje-linea-tiempo"><span id="viaje-barra"></span></div>
+  <button class="viaje-saltar" type="button" onclick="saltarViaje()">Saltar presentación <i class="fas fa-forward-step" aria-hidden="true"></i></button>
+
+  <section class="escena-viaje escena-origen activa" aria-label="Salida desde Santa Cruz de Yojoa">
+    <img class="foto-viaje" data-photo-group="lago" loading="eager" decoding="async" src="https://www.opturh.com/sites/default/files/G0025542.jpg" alt="Paisaje del Lago de Yojoa, punto de partida del viaje" />
+    <div class="velo-viaje"></div>
+    <div class="viaje-copy">
+      <div class="viaje-supra">El comienzo de la aventura</div>
+      <h2>Todo comienza <em>en Santa Cruz de Yojoa</em></h2>
+      <p>Dejamos atrás el paisaje verde del lago y las montañas hondureñas. Una nueva aventura nos espera entre nubes, selva y piedra ancestral.</p>
+      <div class="viaje-sello"><i class="fas fa-location-dot" aria-hidden="true"></i> Cortés · Honduras</div>
+    </div>
+    <div class="viaje-globo" aria-hidden="true">
+      <svg viewBox="0 0 300 300" role="presentation">
+        <path fill="#77a66f" d="M62 55 81 39 107 43 121 58 146 57 156 74 178 82 184 104 169 119 152 118 143 137 126 143 119 165 103 169 92 150 73 146 67 126 52 117 47 94 57 76Z"/>
+        <path fill="#659b69" d="M130 146 148 157 156 174 165 187 160 205 174 223 167 245 154 256 146 233 137 213 132 190 121 174Z"/>
+        <path fill="#89b77b" d="M195 164 216 150 239 157 251 174 239 190 217 191 209 207 194 199 182 183Z"/>
+        <path fill="#487f5b" d="M82 210 106 195 122 204 127 222 110 236 91 229Z"/>
+        <path d="M135 204 Q155 182 184 161" fill="none" stroke="#f0d17b" stroke-width="2.5" stroke-dasharray="4 6"/>
+        <circle cx="184" cy="161" r="5" fill="#fff2bf"/><circle cx="184" cy="161" r="11" fill="none" stroke="#fff2bf" opacity=".5"/>
+      </svg>
+      <span class="punto-globo"></span>
+    </div>
+  </section>
+
+  <section class="escena-viaje escena-embarque" aria-label="Abordando el avión">
+    <img class="foto-viaje" data-photo-group="avion" loading="eager" decoding="async" src="https://traveldiunsa.expovacaciones.hn/images/aerlineas_sosa/galeria/Aerolineas_Sosa_-_Travel_Diunsa_-_6.jpg" alt="Avión regional preparado para el embarque de pasajeros" />
+    <div class="velo-viaje"></div>
+    <div class="viaje-copy">
+      <div class="viaje-supra">Siguiente parada · El cielo</div>
+      <h2>Subimos a bordo <em>y comienza el viaje</em></h2>
+      <p>La puerta se cierra, los motores despiertan y Honduras se abre bajo nuestras alas. Abróchate el cinturón: nos vamos rumbo a Copán.</p>
+      <div class="viaje-sello"><i class="fas fa-plane-up" aria-hidden="true"></i> Preparados para despegar</div>
+    </div>
+  </section>
+
+  <section class="escena-viaje escena-vuelo" aria-label="Vuelo sobre Honduras">
+    <div class="nube n1" aria-hidden="true"></div><div class="nube n2" aria-hidden="true"></div><div class="nube n3" aria-hidden="true"></div>
+    <div class="velo-viaje"></div>
+    <svg class="ruta-aerea" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+      <path class="ruta-base" d="M70 705 C330 790 455 510 725 510 S1060 210 1335 165"/>
+      <path class="ruta-dorada" d="M70 705 C330 790 455 510 725 510 S1060 210 1335 165"/>
+      <circle cx="70" cy="705" r="7" fill="#f4d780"/><circle cx="1335" cy="165" r="7" fill="#f4d780"/>
+    </svg>
+    <svg class="avion-animado" viewBox="0 0 180 100" role="img" aria-label="Avión en vuelo">
+      <path fill="currentColor" d="M174 47c-1-5-6-8-12-9l-49-7L86 6c-2-3-5-4-8-3-3 1-4 4-3 7l10 24-34-5L36 13c-2-2-5-3-7-1-3 1-4 4-3 7l8 13-21-2c-5 0-8 3-8 7s3 7 8 8l52 8-26 20c-3 2-4 6-2 9 2 3 6 3 9 1l49-24 57-2c15-1 25-5 22-10Z"/>
+      <path fill="#d4ac51" d="m33 39 83-5 34 7-42 4-68 4Z" opacity=".85"/>
+    </svg>
+    <div class="punto-ruta origen"><i class="fas fa-circle-dot" aria-hidden="true"></i> Santa Cruz de Yojoa</div>
+    <div class="punto-ruta destino"><i class="fas fa-location-dot" aria-hidden="true"></i> Copán Ruinas</div>
+    <div class="viaje-copy">
+      <div class="viaje-supra">Sobrevolando nuestra tierra</div>
+      <h2>Honduras desde <em>otra perspectiva</em></h2>
+      <p>Montañas, nubes y valles pasan bajo nosotros mientras la ruta dorada nos acerca al legado de los antiguos mayas.</p>
+      <div class="viaje-sello"><i class="fas fa-route" aria-hidden="true"></i> Rumbo al occidente hondureño</div>
+    </div>
+  </section>
+
+  <section class="escena-viaje escena-llegada" aria-label="Llegada a Copán Ruinas">
+    <img class="foto-viaje" data-photo-group="aerea" loading="eager" decoding="async" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Aerial-View-Honduras-Centroamerica-06.webp" alt="Vista aérea del Parque Arqueológico de Copán entre la selva" />
+    <div class="velo-viaje"></div>
+    <div class="viaje-copy">
+      <div class="viaje-supra">Destino alcanzado</div>
+      <h2>Bienvenidos <em>a Copán Ruinas</em></h2>
+      <p>La selva nos recibe y las piedras cuentan historias de reyes, artistas y astrónomos mayas. Nuestro recorrido apenas comienza.</p>
+      <div class="viaje-sello"><i class="fas fa-landmark" aria-hidden="true"></i> La memoria viva del mundo maya</div>
+    </div>
+    <div class="viaje-destino-chip"><i class="fas fa-compass" aria-hidden="true"></i><span><small>Hemos llegado a</small><strong>Copán Ruinas · Honduras</strong></span></div>
+  </section>
+</div>
+
+<div id="progreso"></div>
+<nav id="nav">
+<div class="logo" onclick="volverAlInicio()">Copán <span>Mágico</span></div>
+<div class="nav-links">
+<a onclick="irA('inicio')">Inicio</a>
+<a onclick="abrirZona('copan')">Atracciones</a>
+<a onclick="irA('galeria')">Galería</a>
+<a onclick="irA('videos')">Videos</a>
+<a onclick="irA('experiencias')">Datos</a>
+<a class="nav-cta" onclick="abrirZona('copan')">Planifica tu viaje</a>
+</div>
+</nav>
+<!-- ================= VISTA PRINCIPAL ================= -->
+<div id="vista-principal">
+<header class="hero" id="inicio">
+<div class="hero-bg" data-parallax="0.35">
+<img alt="Ruinas de Copán, Honduras" decoding="async" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+</div>
+<div id="particulas"></div>
+<div class="hero-contenido">
+<div class="hero-eyebrow">HONDURAS  ·  HERENCIA MAYA</div>
+<h1 class="hero-title-lux"><span class="linea"><i>COPÁN</i></span><span class="linea"><i>ANCESTRAL</i></span></h1><div aria-hidden="true" class="hero-ornamento"><span></span><i class="fas fa-diamond"></i><span></span></div>
+<p class="hero-subtitle">Piedra, selva y memoria viva en el corazón del mundo maya.</p>
+<div class="hero-botones">
+<a class="btn-oro magnetico" onclick="abrirZona('copan')"><i class="fas fa-compass"></i> Explorar Copán</a>
+<a class="btn-fantasma magnetico" onclick="irA('videos')"><i class="fas fa-play"></i> Vivir la experiencia</a>
+</div>
+</div>
+<div class="insignia">
+<svg viewbox="0 0 130 130"><defs><path d="M65,65 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" id="circ"></path></defs>
+<text><textpath href="#circ">Explora • Sueña • Viaja • Copán Mágico • </textpath></text></svg>
+<i class="fas fa-arrow-down-long"></i>
+</div>
+</header>
+<div aria-hidden="true" class="marquee">
+<div class="marquee-track">
+<span>Copán Ruinas <i class="fas fa-diamond"></i> Macaw Mountain <i class="fas fa-diamond"></i> Aguas Termales <i class="fas fa-diamond"></i> Escalinata de los Jeroglíficos <i class="fas fa-diamond"></i> Las Sepulturas <i class="fas fa-diamond"></i> Santa Rosa de Copán <i class="fas fa-diamond"></i> Hacienda San Lucas <i class="fas fa-diamond"></i> Cuevas de Taulabé <i class="fas fa-diamond"></i> Museo de Escultura Maya <i class="fas fa-diamond"></i> Parque Nacional Celaque <i class="fas fa-diamond"></i></span>
+<span>Copán Ruinas <i class="fas fa-diamond"></i> Macaw Mountain <i class="fas fa-diamond"></i> Aguas Termales <i class="fas fa-diamond"></i> Escalinata de los Jeroglíficos <i class="fas fa-diamond"></i> Las Sepulturas <i class="fas fa-diamond"></i> Santa Rosa de Copán <i class="fas fa-diamond"></i> Hacienda San Lucas <i class="fas fa-diamond"></i> Cuevas de Taulabé <i class="fas fa-diamond"></i> Museo de Escultura Maya <i class="fas fa-diamond"></i> Parque Nacional Celaque <i class="fas fa-diamond"></i></span>
+</div>
+</div>
+<section class="contenedor" id="destinos">
+<div class="cabecera-seccion" data-anim="">
+<span class="kicker">El corazón del occidente hondureño</span>
+<h2>Destino <em>principal</em></h2>
+<p>Copán es un universo distinto: arqueología maya de clase mundial, montañas nubladas, aguas termales y guacamayas rojas volando en libertad. Entra y explóralo.</p>
+</div>
+<div class="grid-principal">
+<div class="tarjeta-macro tilt" data-anim="" onclick="abrirZona('copan')" style="--d:.05s">
+<span class="num-agua">01</span>
+<img alt="Ruinas de Copán, Honduras" decoding="async" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+<div class="capa-texto">
+<span class="tag">Patrimonio UNESCO</span>
+<h2>Copán</h2>
+<p>Ruinas mayas, guacamayas rojas y aguas termales entre la selva.</p>
+<span class="btn-entrar">Ver todos los lugares <i class="fas fa-arrow-right-long"></i></span>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= GALERÍA DE IMÁGENES ================= -->
+<section class="contenedor" id="galeria">
+<div class="cabecera-seccion" data-anim="">
+<span class="kicker">Capturado en piedra y luz</span>
+<h2>Galería <em>visual</em></h2>
+<p>Imágenes que capturan la magia de Copán: desde los misteriosos túneles de Rosalila hasta las calles coloniales de Santa Rosa de Copán. Cada fotografía cuenta una historia milenaria.</p>
+</div>
+<div class="galeria-grid">
+<div class="galeria-item" data-anim="" data-caption="Templo principal de Copán Ruinas" data-full="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp" style="--d:.05s">
+<img alt="Templo principal de Copán" data-photo-group="ruinas" decoding="async" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+<span class="galeria-caption">Templo Principal</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Túneles de Rosalila - Entrada al inframundo maya" data-full="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg" style="--d:.1s">
+<img alt="Túneles de Rosalila" data-photo-group="ruinas" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg"/>
+<span class="galeria-caption">Túneles de Rosalila</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Guacamayas rojas en libertad - Macaw Mountain" data-full="https://toniweb.com/var/albums/Honduras-Copan/Sitio-Arqueologico-Copan/guacamayas_copan_1.jpg?m=1405011507" style="--d:.15s">
+<img alt="Guacamayas rojas en Macaw Mountain" data-photo-group="macaw" decoding="async" src="https://toniweb.com/var/albums/Honduras-Copan/Sitio-Arqueologico-Copan/guacamayas_copan_1.jpg?m=1405011507"/>
+<span class="galeria-caption">Guacamayas Rojas</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Santa Rosa de Copán - Centro histórico colonial" data-full="https://static.wixstatic.com/media/b29547_0f74f5c9d300496eaf190dc75004b089~mv2.png/v1/fill/w_1534%2Ch_828%2Cal_c/Catedral%20Santa%20Rosa%20De%20Cop%C3%A1n%201.png" style="--d:.2s">
+<img alt="Santa Rosa de Copán" data-photo-group="santa" decoding="async" src="https://static.wixstatic.com/media/b29547_0f74f5c9d300496eaf190dc75004b089~mv2.png/v1/fill/w_1534%2Ch_828%2Cal_c/Catedral%20Santa%20Rosa%20De%20Cop%C3%A1n%201.png"/>
+<span class="galeria-caption">Santa Rosa de Copán</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Aguas Termales Luna Jaguar - Spa natural en la selva" data-full="https://www.revistaestilo.net/binrepository/533x400/0c0/0d0/none/179468266/DQGF/36-copy7_ES1360118_MG346208283.jpg" style="--d:.25s">
+<img alt="Aguas Termales Luna Jaguar" data-photo-group="thermal" decoding="async" src="https://www.revistaestilo.net/binrepository/533x400/0c0/0d0/none/179468266/DQGF/36-copy7_ES1360118_MG346208283.jpg"/>
+<span class="galeria-caption">Aguas Termales</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Hacienda San Lucas - Vista al valle de Copán" data-full="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp" style="--d:.3s">
+<img alt="Hacienda San Lucas" data-photo-group="ruinas" decoding="async" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+<span class="galeria-caption">Hacienda San Lucas</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Escalinata de los Jeroglíficos - La más larga del mundo maya" data-full="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg" style="--d:.35s">
+<img alt="Escalinata de los Jeroglíficos" data-photo-group="ruinas" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg"/>
+<span class="galeria-caption">Escalinata de Jeroglíficos</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Túnel Rosalila - Templo intacto bajo la Acrópolis" data-full="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg" style="--d:.4s">
+<img alt="Interior del Túnel Rosalila" data-photo-group="ruinas" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg"/>
+<span class="galeria-caption">Interior Túnel Rosalila</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Calles coloniales de Santa Rosa de Copán" data-full="https://static.wixstatic.com/media/b29547_0f74f5c9d300496eaf190dc75004b089~mv2.png/v1/fill/w_1534%2Ch_828%2Cal_c/Catedral%20Santa%20Rosa%20De%20Cop%C3%A1n%201.png" style="--d:.45s">
+<img alt="Calles de Santa Rosa" data-photo-group="santa" decoding="async" src="https://static.wixstatic.com/media/b29547_0f74f5c9d300496eaf190dc75004b089~mv2.png/v1/fill/w_1534%2Ch_828%2Cal_c/Catedral%20Santa%20Rosa%20De%20Cop%C3%A1n%201.png"/>
+<span class="galeria-caption">Casco Histórico</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Pozas termales naturales en la selva de Copán" data-full="https://www.revistaestilo.net/binrepository/533x400/0c0/0d0/none/179468266/DQGF/36-copy7_ES1360118_MG346208283.jpg" style="--d:.5s">
+<img alt="Pozas termales" data-photo-group="thermal" decoding="async" src="https://www.revistaestilo.net/binrepository/533x400/0c0/0d0/none/179468266/DQGF/36-copy7_ES1360118_MG346208283.jpg"/>
+<span class="galeria-caption">Pozas Naturales</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Ruinas mayas al amanecer - Copán Honduras" data-full="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp" style="--d:.55s">
+<img alt="Ruinas al amanecer" data-photo-group="ruinas" decoding="async" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+<span class="galeria-caption">Amanecer en las Ruinas</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+<div class="galeria-item" data-anim="" data-caption="Guacamaya roja volando libre sobre las ruinas" data-full="https://toniweb.com/var/albums/Honduras-Copan/Sitio-Arqueologico-Copan/guacamayas_copan_1.jpg?m=1405011507" style="--d:.6s">
+<img alt="Guacamaya volando" data-photo-group="macaw" decoding="async" src="https://toniweb.com/var/albums/Honduras-Copan/Sitio-Arqueologico-Copan/guacamayas_copan_1.jpg?m=1405011507"/>
+<span class="galeria-caption">Vuelo Libre</span>
+<span class="galeria-icon"><i class="fas fa-magnifying-glass-plus"></i></span>
+</div>
+</div>
+</section>
+<!-- ================= SECCIÓN DE VIDEOS CON SCROLL HORIZONTAL ================= -->
+<section class="seccion-videos" id="videos">
+<div class="contenedor">
+<div class="cabecera-seccion" data-anim="">
+<span class="kicker">Experiencias audiovisuales</span>
+<h2>Videos de <em>todo Copán</em></h2>
+<p>Sumérgete en la magia de Copán a través de videos que capturan la esencia de sus ruinas, naturaleza y cultura milenaria. Desliza para explorar todas las experiencias.</p>
+</div>
+</div>
+<div class="videos-scroll-wrapper">
+<div class="scroll-arrows left">
+<button class="scroll-arrow-btn" onclick="scrollVideos(-1)"><i class="fas fa-arrow-left"></i></button>
+</div>
+<div class="scroll-arrows right">
+<button class="scroll-arrow-btn" onclick="scrollVideos(1)"><i class="fas fa-arrow-right"></i></button>
+</div>
+<div class="videos-scroll-container" id="videosScrollContainer">
+<div class="video-card" data-anim="" style="--d:.05s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="81153749,1140117744,61670243" data-video-id="6373103" data-video-title="Honduras: las ruinas de Copán">
+<button aria-label="Reproducir aquí: Honduras: las ruinas de Copán" class="video-thumb" data-video-id="6373103" data-video-title="Honduras: las ruinas de Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Honduras: las ruinas de Copán" data-photo-group="ruinas" data-video-thumb="true" decoding="async" loading="lazy" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Arqueología maya</span>
+<h4>Honduras: las ruinas de Copán</h4>
+<p>Un recorrido por las ruinas mayas de Copán y su extraordinario legado artístico, filmado en colaboración con el Instituto Hondureño de Turismo.</p>
+</div>
+</div>
+<div class="video-card" data-anim="" style="--d:.15s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,1140117744,61670243" data-video-id="81153749" data-video-title="Recorriendo las ruinas mayas de Copán">
+<button aria-label="Reproducir aquí: Recorriendo las ruinas mayas de Copán" class="video-thumb" data-video-id="81153749" data-video-title="Recorriendo las ruinas mayas de Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Recorriendo las ruinas mayas de Copán" data-photo-group="ruinas" data-video-thumb="true" decoding="async" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Historia y arquitectura</span>
+<h4>Recorriendo las ruinas mayas de Copán</h4>
+<p>Camina por la plaza principal, la Acrópolis y el área residencial de Copán, y contempla de cerca las esculturas y la arquitectura de la antigua ciudad maya.</p>
+</div>
+</div>
+<div class="video-card" data-anim="" style="--d:.25s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,81153749,1140117744" data-video-id="61670243" data-video-title="Honduras en imágenes: un viaje por Copán">
+<button aria-label="Reproducir aquí: Honduras en imágenes: un viaje por Copán" class="video-thumb" data-video-id="61670243" data-video-title="Honduras en imágenes: un viaje por Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Honduras en imágenes: un viaje por Copán" data-photo-group="ruinas" data-video-thumb="true" decoding="async" loading="lazy" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Viaje por Honduras</span>
+<h4>Honduras en imágenes: un viaje por Copán</h4>
+<p>Un diario de viaje por Honduras que incluye Copán Ruinas junto con otros destinos del país, contado desde la mirada de un viajero.</p>
+</div>
+</div>
+<div class="video-card" data-anim="" style="--d:.45s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,81153749,1140117744" data-video-id="1150446014" data-video-title="Macaw Mountain: guacamayas de Copán">
+<button aria-label="Reproducir aquí: Macaw Mountain: guacamayas de Copán" class="video-thumb" data-video-id="1150446014" data-video-title="Macaw Mountain: guacamayas de Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Macaw Mountain: guacamayas de Copán" data-photo-group="macaw" data-video-thumb="true" decoding="async" loading="lazy" src="https://toniweb.com/var/albums/Honduras-Copan/Sitio-Arqueologico-Copan/guacamayas_copan_1.jpg?m=1405011507"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Naturaleza viva</span>
+<h4>Macaw Mountain: guacamayas de Copán</h4>
+<p>Observa a las aves de Macaw Mountain en Copán; este video muestra a los loros y guacamayas disfrutando de la lluvia en una aviaria al aire libre.</p>
+</div>
+</div>
+<div class="video-card" data-anim="" style="--d:.85s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,81153749,1140117744" data-video-id="141077169" data-video-title="El Lugar del Té y Chocolate en Copán">
+<button aria-label="Reproducir aquí: El Lugar del Té y Chocolate en Copán" class="video-thumb" data-video-id="141077169" data-video-title="El Lugar del Té y Chocolate en Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de El Lugar del Té y Chocolate en Copán" data-photo-group="thermal" data-video-thumb="true" decoding="async" loading="lazy" src="https://www.revistaestilo.net/binrepository/533x400/0c0/0d0/none/179468266/DQGF/36-copy7_ES1360118_MG346208283.jpg"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Turismo local</span>
+<h4>El Lugar del Té y Chocolate en Copán</h4>
+<p>Descubre un rincón tranquilo a las afueras de Copán Ruinas, rodeado de naturaleza, productos botánicos y una experiencia local de té y chocolate.</p>
+</div>
+</div>
+<div class="video-card" data-anim="" style="--d:.95s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,81153749,61670243" data-video-id="1140117744" data-video-title="Proyecto Túneles, Copán Ruinas">
+<button aria-label="Reproducir aquí: Proyecto Túneles, Copán Ruinas" class="video-thumb" data-video-id="1140117744" data-video-title="Proyecto Túneles, Copán Ruinas" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Proyecto Túneles, Copán Ruinas" data-photo-group="ruinas" data-video-thumb="true" decoding="async" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Investigación arqueológica</span>
+<h4>Proyecto Túneles, Copán Ruinas</h4>
+<p>Un registro del Proyecto Túneles en Copán Ruinas, publicado por el Instituto Hondureño de Antropología e Historia (IHAH).</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="banda-datos" id="experiencias">
+<div class="contenedor" style="padding-top:90px;padding-bottom:90px">
+<div class="grid-datos">
+<div class="dato" data-anim="" style="--d:.05s"><div class="numero"><span class="contador" data-meta="21">0</span></div><div class="etiqueta">Municipios por descubrir</div></div>
+<div class="dato" data-anim="" style="--d:.15s"><div class="numero"><span class="contador" data-meta="1000">0</span><small>+</small></div><div class="etiqueta">Años de civilización maya</div></div>
+<div class="dato" data-anim="" style="--d:.25s"><div class="numero"><span class="contador" data-meta="500">0</span><small>+</small></div><div class="etiqueta">Especies de aves</div></div>
+<div class="dato" data-anim="" style="--d:.35s"><div class="numero"><span class="contador" data-meta="4">0</span><small> km²</small></div><div class="etiqueta">Zona arqueológica central</div></div>
+</div>
+</div>
+</section>
+<section class="banda-cita">
+<div class="fondo" data-parallax="0.25"></div>
+<blockquote data-anim="zoom">
+      "En Copán entendí que el tiempo puede tallarse en piedra y que cada estela guarda el susurro de un rey que quiso ser eterno."
+      <cite>— Cuaderno de viaje, Copán Ruinas</cite>
+</blockquote>
+</section>
+<footer id="contacto">
+<div class="footer-grid">
+<div>
+<h4>Copán <span style="color:var(--oro);font-style:italic">Mágico</span></h4>
+<p>Portal turístico independiente dedicado a mostrar la belleza arqueológica y natural del departamento de Copán, Honduras.</p>
+<div class="redes">
+<a aria-label="Instagram" href="#"><i class="fab fa-instagram"></i></a>
+<a aria-label="Facebook" href="#"><i class="fab fa-facebook-f"></i></a>
+<a aria-label="TikTok" href="#"><i class="fab fa-tiktok"></i></a>
+</div>
+</div>
+<div>
+<h4>Destinos</h4>
+<a onclick="abrirZona('copan')">Copán Ruinas</a>
+<a onclick="abrirZona('copan')">Santa Rosa de Copán</a>
+<a onclick="abrirZona('copan')">Aguas Termales</a>
+<a onclick="abrirZona('copan')">Macaw Mountain</a>
+</div>
+<div>
+<h4>Experiencias</h4>
+<a onclick="abrirZona('copan')">Cultura maya</a>
+<a onclick="abrirZona('copan')">Aves y naturaleza</a>
+<a onclick="abrirZona('copan')">Aguas termales</a>
+<a onclick="abrirZona('copan')">Rutas arqueológicas</a>
+</div>
+<div>
+<h4>Buen viaje</h4>
+<p>Mejor época: de noviembre a abril (temporada seca). Lleva efectivo en zonas rurales y respeta las ruinas: son patrimonio de todos. No toques las estelas ni lleves piedras de recuerdo.</p>
+</div>
+</div>
+<div class="creditos-fotos">
+<strong>Créditos de fotografía:</strong>
+      Copán Ruinas: <a href="https://commons.wikimedia.org/wiki/File:Ruinas_MAYA_Copan_Honduras_14.jpg" rel="noopener noreferrer" target="_blank">Mónica J. Mora, CC BY-SA 4.0</a>;
+      guacamaya roja: <a href="https://commons.wikimedia.org/wiki/File:Scarlet_macaw_(Ara_macao_cyanopterus)_Copan.jpg" rel="noopener noreferrer" target="_blank">Charles J. Sharp, CC BY-SA 4.0</a>;
+      Santa Rosa de Copán: <a href="https://commons.wikimedia.org/wiki/File:Santa_Rosa_de_Cop%C3%A1n_Cathedral_in_Honduras_1998.jpg" rel="noopener noreferrer" target="_blank">Leonora Enking, CC BY-SA 2.0</a>;
+      aguas termales: <a href="https://lunajaguarspa.com/" rel="noopener noreferrer" target="_blank">Luna Jaguar SPA</a>.
+      Las fotografías conservan sus licencias y créditos correspondientes.
+    </div>
+<div class="copy"><span>© 2026 <b>Copán Mágico</b> — Hecho con orgullo catracho</span><span>Fotografías de Copán y destinos de Honduras</span></div>
+</footer>
+</div>
+<!-- ================= VISTAS INTERNAS ================= -->
+<div id="vista-interna">
+<button class="btn-volver" id="btnVolver" onclick="volverAlInicio()"><i class="fas fa-arrow-left-long"></i> Volver al inicio</button>
+<!-- ZONA COPÁN -->
+<div class="zona-oculta" id="zona-copan">
+<div class="header-zona">
+<div class="fondo-zona" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Ruinas_MAYA_Copan_Honduras_14.jpg/1280px-Ruinas_MAYA_Copan_Honduras_14.jpg')"></div>
+<div class="contenido-zona">
+<div class="chips"><span class="chip"><i class="fas fa-landmark"></i> Patrimonio de la Humanidad</span><span class="chip"><i class="fas fa-temperature-high"></i> Aguas termales</span><span class="chip"><i class="fas fa-feather-pointed"></i> Guacamayas rojas</span></div>
+<h2>Explora Copán <em>La Atenas del mundo maya</em></h2>
+</div>
+</div>
+<div class="contenedor">
+<div class="cabecera-seccion" data-anim=""><span class="kicker">Occidente de Honduras</span><h2>Atracciones en <em>Copán</em></h2><p>Descubre cada rincón de este departamento mágico: desde las ruinas milenarias hasta los pueblos coloniales con encanto.</p></div>
+
+<section class="ruta-aventura" id="mapa-aventura" aria-label="Mapa interactivo de la aventura por Copán">
+  <div class="ruta-cabecera">
+    <div>
+      <span class="ruta-kicker"><i class="fas fa-compass" aria-hidden="true"></i> Tu aventura empieza aquí</span>
+      <h3>Explora Copán a tu manera</h3>
+      <p>Elige una parada en el mapa, escucha el ambiente del lugar y completa tu bitácora de viajero. Hay cinco sitios por descubrir.</p>
+    </div>
+    <div class="ruta-bitacora" aria-live="polite">
+      <div class="bitacora-linea"><span><i class="fas fa-book-open" aria-hidden="true"></i> Bitácora del viajero</span><strong><span id="paradas-hechas">0</span> / 5</strong></div>
+      <div class="bitacora-track" aria-label="Progreso de la aventura"><span id="bitacora-progreso"></span></div>
+    </div>
+  </div>
+  <div class="aventura-layout">
+    <div class="mapa-escenario">
+      <svg class="mapa-arte" viewBox="0 0 1000 620" role="img" aria-label="Mapa ilustrado de senderos, montañas y lugares de Copán">
+        <defs>
+          <linearGradient id="mapaFondo" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#24614a"/><stop offset=".52" stop-color="#164633"/><stop offset="1" stop-color="#0b2a21"/></linearGradient>
+          <linearGradient id="montanaMapa" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#78a16d"/><stop offset="1" stop-color="#325f45"/></linearGradient>
+          <radialGradient id="solMapa"><stop stop-color="#f4d985" stop-opacity=".72"/><stop offset="1" stop-color="#f4d985" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="1000" height="620" fill="url(#mapaFondo)"/>
+        <circle class="brillo-mapa" cx="830" cy="102" r="175" fill="url(#solMapa)"/>
+        <path d="M0 160 122 77 220 138 345 48 453 135 568 54 666 132 786 42 1000 160V0H0Z" fill="url(#montanaMapa)" opacity=".55"/>
+        <path d="M0 246 120 170 230 214 372 129 495 224 623 151 746 212 868 118 1000 193V0H0Z" fill="#9dbd83" opacity=".16"/>
+        <path d="M0 490Q160 404 300 480T590 456 1000 470V620H0Z" fill="#082319" opacity=".4"/>
+        <path d="M60 582C160 485 197 448 250 386S343 236 382 196 464 261 504 344 592 435 664 413 768 280 850 205 944 175 1000 147" class="linea-ruta"/>
+        <path d="M0 312C130 345 170 305 249 340S364 416 446 388 570 314 640 329 758 405 844 382 939 321 1000 346" class="rio-ruta"/>
+        <path d="M0 312C130 345 170 305 249 340S364 416 446 388 570 314 640 329 758 405 844 382 939 321 1000 346" class="rio-brillo"/>
+        <g fill="#224c37" opacity=".85">
+          <path d="M100 432 128 350 156 432Z"/><path d="M126 449 164 338 202 449Z"/><path d="M195 513 228 417 261 513Z"/>
+          <path d="M304 148 333 68 362 148Z"/><path d="M710 504 746 397 782 504Z"/><path d="M880 491 911 400 942 491Z"/>
+          <path d="M805 155 838 62 871 155Z"/><path d="M510 151 537 76 564 151Z"/>
+        </g>
+        <g fill="#d7bd75" opacity=".72"><circle cx="128" cy="432" r="3"/><circle cx="164" cy="449" r="3"/><circle cx="228" cy="513" r="3"/><circle cx="746" cy="504" r="3"/><circle cx="911" cy="491" r="3"/></g>
+        <g transform="translate(412 400)" fill="#e7d6a4" opacity=".62"><path d="M0 39h74V4L37 -20 0 4z"/><path d="M24 39V14h24v25z" fill="#173a2a"/></g>
+        <g transform="translate(744 418)" fill="none" stroke="#c0edf0" stroke-width="8" opacity=".7"><path d="M0 0c24 21 24 42 0 63m23-63c24 21 24 42 0 63m23-63c24 21 24 42 0 63"/></g>
+        <text x="28" y="588" fill="#f2dfaa" opacity=".7" font-family="Manrope,Arial" font-size="17" font-weight="700" letter-spacing="4">COPÁN · HONDURAS</text>
+      </svg>
+      <span class="mapa-etiqueta"><i class="fas fa-route" aria-hidden="true"></i> Ruta de los exploradores</span>
+      <button class="map-stop activa" style="--x:16%;--y:67%" type="button" data-parada="ruinas" aria-label="Explorar Parque Arqueológico de Copán"><span class="stop-pin"><i class="fas fa-landmark" aria-hidden="true"></i></span><span class="stop-name">Ruinas mayas</span></button>
+      <button class="map-stop" style="--x:38%;--y:31%" type="button" data-parada="aves" aria-label="Explorar Macaw Mountain y sus aves"><span class="stop-pin"><i class="fas fa-dove" aria-hidden="true"></i></span><span class="stop-name">Aves de Copán</span></button>
+      <button class="map-stop" style="--x:50%;--y:57%" type="button" data-parada="sepulturas" aria-label="Explorar Las Sepulturas"><span class="stop-pin"><i class="fas fa-seedling" aria-hidden="true"></i></span><span class="stop-name">Sendero maya</span></button>
+      <button class="map-stop" style="--x:68%;--y:68%" type="button" data-parada="termales" aria-label="Explorar las aguas termales"><span class="stop-pin"><i class="fas fa-water" aria-hidden="true"></i></span><span class="stop-name">Aguas termales</span></button>
+      <button class="map-stop" style="--x:84%;--y:33%" type="button" data-parada="cultura" aria-label="Explorar la cultura de Santa Rosa de Copán"><span class="stop-pin"><i class="fas fa-masks-theater" aria-hidden="true"></i></span><span class="stop-name">Cultura viva</span></button>
+    </div>
+    <article class="panel-parada" aria-live="polite">
+      <div class="panel-parada-foto"><img id="mapa-foto" data-photo-group="ruinas" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp" alt="Plaza y templos del Parque Arqueológico de Copán"></div>
+      <div class="panel-parada-contenido">
+        <span class="panel-parada-tag" id="mapa-categoria"><i class="fas fa-star" aria-hidden="true"></i> Historia maya</span>
+        <h4 id="mapa-titulo">Parque Arqueológico de Copán</h4>
+        <p id="mapa-descripcion">Camina entre plazas, estelas y templos de una antigua ciudad maya. Mira de cerca la Escalinata de los Jeroglíficos y escucha el llamado de la historia.</p>
+        <div class="parada-acciones">
+          <button id="mapa-visitar" type="button"><i class="fas fa-check" aria-hidden="true"></i> Visitar parada</button>
+          <button id="mapa-ver-lugar" type="button"><i class="fas fa-arrow-down" aria-hidden="true"></i> Ver el lugar</button>
+        </div>
+<div class="botones-aves" id="sonidos-aves" hidden>
+  <button class="btn-ave-audio" type="button" id="oir-guacamaya"><i class="fas fa-volume-high" aria-hidden="true"></i> Escuchar guacamaya</button>
+  <button class="btn-ave-audio" type="button" id="oir-pericos"><i class="fas fa-volume-high" aria-hidden="true"></i> Pericos alborotados</button>
+</div>
+      </div>
+    </article>
+  </div>
+  <p class="ruta-pie"><i class="fas fa-volume-high" aria-hidden="true"></i> Toca una parada o una fotografía para escuchar su ambiente. Puedes apagar el sonido cuando quieras.</p>
+<p class="ruta-creditos">Grabaciones de aves: <a href="https://commons.wikimedia.org/wiki/File:Ara_militaris_-_Military_Macaw_XC250486.mp3" target="_blank" rel="noopener">guacamaya, Niels Krabbe (CC BY-SA 4.0)</a> · <a href="https://commons.wikimedia.org/wiki/File:Parrots_perroquets.ogg" target="_blank" rel="noopener">pericos, aldor (dominio público)</a>. Música: <a href="https://open.spotify.com/track/0FbnL9EfyZFhJGorVG7GQg" target="_blank" rel="noopener">“Mira a Honduras”, audio oficial de Polache</a>.</p>
+</section>
+<div class="tabs-zonas">
+<div class="tab-zona activa" onclick="cambiarTab(this, 'tab-lugares')"><i class="fas fa-map-location-dot"></i> Lugares</div>
+<div class="tab-zona" onclick="cambiarTab(this, 'tab-videos-copan')"><i class="fas fa-video"></i> Videos de Copán</div>
+</div>
+<div class="tab-content activa" id="tab-lugares">
+<div class="grid-lugares">
+<div class="tarjeta-lugar" data-anim="" style="--d:.05s">
+<div class="foto-lugar zoomable"><img alt="Gran Plaza y templos del Parque Arqueológico de Copán" decoding="async" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/><span class="lupa"><i class="fas fa-magnifying-glass-plus"></i></span></div>
+<div class="info-lugar">
+<h3>Parque Arqueológico Copán Ruinas</h3>
+<p>Patrimonio de la Humanidad por la UNESCO. Famoso por la Escalinata de los Jeroglíficos (la más larga del mundo maya con 2,200 glifos) y sus estelas finamente talladas: fue capital de un poderoso reino maya entre los siglos V y IX. Aquí cada piedra cuenta la historia de reyes y sacerdotes que dominaron el arte de la escultura.</p>
+<div class="meta-lugar"><span><i class="fas fa-map-pin"></i>Copán Ruinas</span><span><i class="fas fa-clock"></i>3–5 horas</span><span><i class="fas fa-ticket"></i>Entrada $15</span></div>
+</div>
+</div>
+<div class="tarjeta-lugar" data-anim="" style="--d:.1s">
+<div class="foto-lugar zoomable"><img alt="Guacamayas rojas en Macaw Mountain" decoding="async" src="https://toniweb.com/var/albums/Honduras-Copan/Sitio-Arqueologico-Copan/guacamayas_copan_1.jpg?m=1405011507"/><span class="lupa"><i class="fas fa-magnifying-glass-plus"></i></span></div>
+<div class="info-lugar">
+<h3>Macaw Mountain</h3>
+<p>Parque de aves y reserva natural donde interactúas con guacamayas rojas —el ave nacional de Honduras— y tucanes rescatados y rehabilitados antes de volver a volar libres sobre las ruinas. Un santuario donde la conservación y la naturaleza se encuentran en perfecta armonía.</p>
+<div class="meta-lugar"><span><i class="fas fa-map-pin"></i>Junto al pueblo</span><span><i class="fas fa-dove"></i>Aves rescatadas</span><span><i class="fas fa-leaf"></i>10 acres</span></div>
+</div>
+</div>
+<div class="tarjeta-lugar" data-anim="" style="--d:.15s">
+<div class="foto-lugar zoomable"><img alt="Aguas termales Luna Jaguar" decoding="async" src="https://www.revistaestilo.net/binrepository/533x400/0c0/0d0/none/179468266/DQGF/36-copy7_ES1360118_MG346208283.jpg"/><span class="lupa"><i class="fas fa-magnifying-glass-plus"></i></span></div>
+<div class="info-lugar">
+<h3>Aguas Termales Luna Jaguar</h3>
+<p>Un spa natural en plena selva con arquitectura de inspiración maya: pozos de agua caliente volcánica, vapor entre los árboles y senderos iluminados con velas. El cierre perfecto tras las ruinas. 13 estaciones termales con temperatura entre 35°C y 45°C rodeadas de vegetación tropical.</p>
+<div class="meta-lugar"><span><i class="fas fa-map-pin"></i>Valle de Sesimiles</span><span><i class="fas fa-spa"></i>Relax total</span><span><i class="fas fa-temperature-high"></i>35-45°C</span></div>
+</div>
+</div>
+<div class="tarjeta-lugar" data-anim="" style="--d:.2s">
+<div class="foto-lugar zoomable"><img alt="Museo de Escultura Maya de Copán" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg"/><span class="lupa"><i class="fas fa-magnifying-glass-plus"></i></span></div>
+<div class="info-lugar">
+<h3>Museo de Escultura Maya</h3>
+<p>Alberga piezas originales del parque: estelas, altares y una réplica a escala real del templo Rosalila. La escultura más refinada de toda Mesoamérica está expuesta aquí bajo un techo diseñado para protegerla. Un tesoro que no puedes perderte.</p>
+<div class="meta-lugar"><span><i class="fas fa-map-pin"></i>Centro de visitantes</span><span><i class="fas fa-mask"></i>Templo Rosalila</span><span><i class="fas fa-camera"></i>Fotos permitidas</span></div>
+</div>
+</div>
+<div class="tarjeta-lugar" data-anim="" style="--d:.25s">
+<div class="foto-lugar zoomable"><img alt="Túnel Rosalila en Copán" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg"/><span class="lupa"><i class="fas fa-magnifying-glass-plus"></i></span></div>
+<div class="info-lugar">
+<h3>Túneles de Rosalila</h3>
+<p>Bajo los templos principales hay túneles que descienden al corazón de la acrópolis. Al final del recorrido descubres el Templo Rosalila: una pirámide intacta pintada de rojo vivo que los mayas sepultaron para protegerla. Los túneles permiten ver secciones del templo Rosalila, utilizado para diversas ceremonias, entre ellas el culto al rey de Copán, K'inich Yax K'uk' Mo'.</p>
+<div class="meta-lugar"><span><i class="fas fa-map-pin"></i>Dentro del parque</span><span><i class="fas fa-stairs"></i>25 m profundidad</span><span><i class="fas fa-helmet-safety"></i>Casco requerido</span></div>
+</div>
+</div>
+<div class="tarjeta-lugar" data-anim="" style="--d:.3s">
+<div class="foto-lugar zoomable"><img alt="Santa Rosa de Copán, capital tabacalera" decoding="async" src="https://static.wixstatic.com/media/b29547_0f74f5c9d300496eaf190dc75004b089~mv2.png/v1/fill/w_1534%2Ch_828%2Cal_c/Catedral%20Santa%20Rosa%20De%20Cop%C3%A1n%201.png"/><span class="lupa"><i class="fas fa-magnifying-glass-plus"></i></span></div>
+<div class="info-lugar">
+<h3>Santa Rosa de Copán</h3>
+<p>Capital del departamento, famosa por sus talleres artesanales de puros (los Flor de Copán), su casco colonial y el ambiente frío de montaña. A 60 km de las ruinas, perfecta para una tarde entre cafés y tabaco. Su centro histórico con calles empedradas, la Catedral de Santa Rosa de Lima y la Real Factoría del Tabaco te transportan a épocas coloniales.</p>
+<div class="meta-lugar"><span><i class="fas fa-map-pin"></i>Capital departamental</span><span><i class="fas fa-cigar"></i>Puros artesanales</span><span><i class="fas fa-mountain"></i>1,200 msnm</span></div>
+</div>
+</div>
+<div class="tarjeta-lugar" data-anim="" style="--d:.35s">
+<div class="foto-lugar zoomable"><img alt="Hacienda San Lucas" decoding="async" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/><span class="lupa"><i class="fas fa-magnifying-glass-plus"></i></span></div>
+<div class="info-lugar">
+<h3>Hacienda San Lucas</h3>
+<p>Un ecohacienda sobre colinas con vista al valle de Copán: senderos naturales, ruinas menores, gastronomía local y hospedaje rural. El mejor lugar para amanecer sobre las copas de los árboles con el sonido de los monos aulladores. Cocina con ingredientes locales y vistas panorámicas inigualables.</p>
+<div class="meta-lugar"><span><i class="fas fa-map-pin"></i>8 km de las ruinas</span><span><i class="fas fa-leaf"></i>Ecoturismo</span><span><i class="fas fa-bed"></i>Hospedaje</span></div>
+</div>
+</div>
+<div class="tarjeta-lugar" data-anim="" style="--d:.4s">
+<div class="foto-lugar zoomable"><img alt="Las Sepulturas, sitio arqueológico maya" decoding="async" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/><span class="lupa"><i class="fas fa-magnifying-glass-plus"></i></span></div>
+<div class="info-lugar">
+<h3>Sitio Arqueológico Las Sepulturas</h3>
+<p>El barrio de la élite maya, a 2 km de la Gran Plaza. Aquí vivían los nobles y artistas que esculpieron las estelas. Arquitectura residencial en excelente estado y menos turistas: una caminata entre pirámides ocultas por la selva. Un lugar íntimo y mágico.</p>
+<div class="meta-lugar"><span><i class="fas fa-map-pin"></i>2 km del centro</span><span><i class="fas fa-person-walking"></i>Sendero interpretativo</span><span><i class="fas fa-clock"></i>1-2 horas</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-content" id="tab-videos-copan">
+<div class="cabecera-seccion" data-anim="" style="margin-top:0;margin-bottom:40px">
+<span class="kicker">Experiencias audiovisuales</span>
+<h2>Videos de <em>todo Copán</em></h2>
+<p>Sumérgete en la magia de Copán a través de videos que capturan la esencia de sus ruinas, naturaleza y cultura milenaria.</p>
+</div>
+<div class="grid-videos">
+<div class="video-card-grid" data-anim="" style="--d:.05s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="81153749,1140117744,61670243" data-video-id="6373103" data-video-title="Honduras: las ruinas de Copán">
+<button aria-label="Reproducir aquí: Honduras: las ruinas de Copán" class="video-thumb" data-video-id="6373103" data-video-title="Honduras: las ruinas de Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Honduras: las ruinas de Copán" data-photo-group="ruinas" data-video-thumb="true" decoding="async" loading="lazy" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Arqueología maya</span>
+<h4>Honduras: las ruinas de Copán</h4>
+<p>Un recorrido por las ruinas mayas de Copán y su extraordinario legado artístico, filmado en colaboración con el Instituto Hondureño de Turismo.</p>
+</div>
+</div>
+<div class="video-card-grid" data-anim="" style="--d:.15s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,1140117744,61670243" data-video-id="81153749" data-video-title="Recorriendo las ruinas mayas de Copán">
+<button aria-label="Reproducir aquí: Recorriendo las ruinas mayas de Copán" class="video-thumb" data-video-id="81153749" data-video-title="Recorriendo las ruinas mayas de Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Recorriendo las ruinas mayas de Copán" data-photo-group="ruinas" data-video-thumb="true" decoding="async" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Historia y arquitectura</span>
+<h4>Recorriendo las ruinas mayas de Copán</h4>
+<p>Camina por la plaza principal, la Acrópolis y el área residencial de Copán, y contempla de cerca las esculturas y la arquitectura de la antigua ciudad maya.</p>
+</div>
+</div>
+<div class="video-card-grid" data-anim="" style="--d:.25s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,81153749,1140117744" data-video-id="61670243" data-video-title="Honduras en imágenes: un viaje por Copán">
+<button aria-label="Reproducir aquí: Honduras en imágenes: un viaje por Copán" class="video-thumb" data-video-id="61670243" data-video-title="Honduras en imágenes: un viaje por Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Honduras en imágenes: un viaje por Copán" data-photo-group="ruinas" data-video-thumb="true" decoding="async" loading="lazy" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Viaje por Honduras</span>
+<h4>Honduras en imágenes: un viaje por Copán</h4>
+<p>Un diario de viaje por Honduras que incluye Copán Ruinas junto con otros destinos del país, contado desde la mirada de un viajero.</p>
+</div>
+</div>
+<div class="video-card-grid" data-anim="" style="--d:.45s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,81153749,1140117744" data-video-id="1150446014" data-video-title="Macaw Mountain: guacamayas de Copán">
+<button aria-label="Reproducir aquí: Macaw Mountain: guacamayas de Copán" class="video-thumb" data-video-id="1150446014" data-video-title="Macaw Mountain: guacamayas de Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Macaw Mountain: guacamayas de Copán" data-photo-group="macaw" data-video-thumb="true" decoding="async" loading="lazy" src="https://toniweb.com/var/albums/Honduras-Copan/Sitio-Arqueologico-Copan/guacamayas_copan_1.jpg?m=1405011507"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Naturaleza viva</span>
+<h4>Macaw Mountain: guacamayas de Copán</h4>
+<p>Observa a las aves de Macaw Mountain en Copán; este video muestra a los loros y guacamayas disfrutando de la lluvia en una aviaria al aire libre.</p>
+</div>
+</div>
+<div class="video-card-grid" data-anim="" style="--d:.85s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,81153749,1140117744" data-video-id="141077169" data-video-title="El Lugar del Té y Chocolate en Copán">
+<button aria-label="Reproducir aquí: El Lugar del Té y Chocolate en Copán" class="video-thumb" data-video-id="141077169" data-video-title="El Lugar del Té y Chocolate en Copán" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de El Lugar del Té y Chocolate en Copán" data-photo-group="thermal" data-video-thumb="true" decoding="async" loading="lazy" src="https://www.revistaestilo.net/binrepository/533x400/0c0/0d0/none/179468266/DQGF/36-copy7_ES1360118_MG346208283.jpg"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Turismo local</span>
+<h4>El Lugar del Té y Chocolate en Copán</h4>
+<p>Descubre un rincón tranquilo a las afueras de Copán Ruinas, rodeado de naturaleza, productos botánicos y una experiencia local de té y chocolate.</p>
+</div>
+</div>
+<div class="video-card-grid" data-anim="" style="--d:.95s">
+<div class="video-wrapper video-teaser" data-video-fallbacks="6373103,81153749,61670243" data-video-id="1140117744" data-video-title="Proyecto Túneles, Copán Ruinas">
+<button aria-label="Reproducir aquí: Proyecto Túneles, Copán Ruinas" class="video-thumb" data-video-id="1140117744" data-video-title="Proyecto Túneles, Copán Ruinas" onclick="reproducirVideo(this)" type="button">
+<img alt="Vista previa de Proyecto Túneles, Copán Ruinas" data-photo-group="ruinas" data-video-thumb="true" decoding="async" loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg"/>
+<span class="video-play"><i aria-hidden="true" class="fas fa-play"></i></span>
+<span class="video-play-label"><i aria-hidden="true" class="fas fa-circle-play"></i> Reproducir aquí</span>
+</button>
+</div>
+<div class="video-info">
+<span class="video-badge">Investigación arqueológica</span>
+<h4>Proyecto Túneles, Copán Ruinas</h4>
+<p>Un registro del Proyecto Túneles en Copán Ruinas, publicado por el Instituto Hondureño de Antropología e Historia (IHAH).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- LIGHTBOX -->
+<div id="lightbox">
+<button class="cerrar" onclick="cerrarLightbox()"><i class="fas fa-xmark"></i></button>
+<button class="nav-lb prev" onclick="navLightbox(-1)"><i class="fas fa-arrow-left"></i></button>
+<button class="nav-lb next" onclick="navLightbox(1)"><i class="fas fa-arrow-right"></i></button>
+<img alt="Fotografía ampliada" id="lightbox-img" src="https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp"/>
+<div class="pie" id="lightbox-pie">Copán Mágico</div>
+</div>
+<script>
+// ============ SONIDO Y BITÁCORA INTERACTIVA ============
+let sonidoActivo = true;
+let contextoAudio = null;
+// Grabaciones reales de libre uso: reproducidas al entrar a la experiencia.
+const URL_GUACAMAYA='https://upload.wikimedia.org/wikipedia/commons/0/0a/Ara_militaris_-_Military_Macaw_XC250486.mp3';
+const URL_PERICOS='https://upload.wikimedia.org/wikipedia/commons/9/9e/Parrots_perroquets.ogg';
+const audioGuacamaya=new Audio(URL_GUACAMAYA);
+const audioPericos=new Audio(URL_PERICOS);
+[audioGuacamaya,audioPericos].forEach(a=>{a.preload='none';});
+let musicaHondurenaActiva=false;
+let presentacionMusicalActiva=true;
+let controladorMusicaSpotify=null;
+let reproduccionMusicaSolicitada=false;
+function iniciarMusicaHondurena(){
+  if(!sonidoActivo||!presentacionMusicalActiva)return;
+  reproduccionMusicaSolicitada=true;
+  if(!controladorMusicaSpotify)return;
+  try{const intento=controladorMusicaSpotify.play();if(intento?.catch)intento.catch(()=>{});}catch(_){}
+}
+function detenerMusicaHondurena(){
+  if(!controladorMusicaSpotify)return;
+  try{const intento=controladorMusicaSpotify.pause();if(intento?.catch)intento.catch(()=>{});}catch(_){}
+}
+function ajustarVolumenMusica(){}
+function detenerAvesReales(){
+  [audioGuacamaya,audioPericos].forEach(a=>{a.pause();try{a.currentTime=0;}catch(_){}a.loop=false;});
+}
+// La pista de fondo se reproduce desde el reproductor oficial visible de Polache.
+function detenerNaturaleza(){}
+function iniciarNaturaleza(){}
+function tocarAve(audio,loop=false,volumen=.9){
+  if(!sonidoActivo)return;
+  try{audio.pause();audio.currentTime=0;}catch(_){}
+  audio.loop=loop;audio.volume=volumen;audio.play().catch(()=>{});
+}
+function coroAlborotado(){
+  if(!sonidoActivo)return;
+  iniciarNaturaleza();detenerAvesReales();ajustarVolumenMusica(13);
+  // Varias voces de guacamaya y pericos se superponen como una bandada viva.
+  tocarAve(audioGuacamaya,true,.88);
+  tocarAve(audioPericos,true,.66);
+  const ctx=obtenerAudio();if(ctx)sonidoAves(ctx);
+}
+function escucharAve(tipo){
+  if(!sonidoActivo)return;
+  iniciarNaturaleza();detenerAvesReales();ajustarVolumenMusica(13);
+  tocarAve(tipo==='guacamaya'?audioGuacamaya:audioPericos,false,1);
+}
+const paradasCopan = {
+  ruinas: { titulo:'Parque Arqueológico de Copán', categoria:'Historia maya', icono:'fa-landmark', sonido:'cultura', foto:'https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp', alt:'Plaza y templos del Parque Arqueológico de Copán', descripcion:'Camina entre plazas, estelas y templos de una antigua ciudad maya. Mira de cerca la Escalinata de los Jeroglíficos y escucha el llamado de la historia.', tarjeta:0 },
+  aves: { titulo:'Macaw Mountain', categoria:'Santuario de aves', icono:'fa-dove', sonido:'aves', foto:'https://toniweb.com/var/albums/Honduras-Copan/Sitio-Arqueologico-Copan/guacamayas_copan_1.jpg?m=1405011507', alt:'Guacamayas rojas en Macaw Mountain', descripcion:'Acércate a las guacamayas rojas y otras aves rescatadas en un santuario rodeado de bosque. Toca la foto para escuchar sus llamados.', tarjeta:1 },
+  sepulturas: { titulo:'Las Sepulturas', categoria:'Sendero entre la selva', icono:'fa-seedling', sonido:'selva', foto:'https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp', alt:'Vegetación y vestigios mayas de Copán', descripcion:'Sigue los pasos de la antigua comunidad maya por senderos verdes y restos de sus casas. Una parada tranquila para imaginar la vida cotidiana de Copán.', tarjeta:7 },
+  termales: { titulo:'Aguas Termales Luna Jaguar', categoria:'Agua y descanso', icono:'fa-water', sonido:'agua', foto:'https://www.revistaestilo.net/binrepository/533x400/0c0/0d0/none/179468266/DQGF/36-copy7_ES1360118_MG346208283.jpg', alt:'Pozas de aguas termales entre la vegetación', descripcion:'Haz una pausa en las pozas calientes de la montaña. El agua corre entre la vegetación y convierte el final del recorrido en un momento de descanso.', tarjeta:2 },
+  cultura: { titulo:'Cultura viva de Copán', categoria:'Tradición hondureña', icono:'fa-masks-theater', sonido:'cultura', foto:'https://static.wixstatic.com/media/b29547_0f74f5c9d300496eaf190dc75004b089~mv2.png/v1/fill/w_1534%2Ch_828%2Cal_c/Catedral%20Santa%20Rosa%20De%20Cop%C3%A1n%201.png', alt:'Catedral y centro histórico de Santa Rosa de Copán', descripcion:'Descubre plazas, arquitectura colonial, cafés y artesanía local en Santa Rosa de Copán. Aquí el pasado y la vida cotidiana se encuentran.', tarjeta:5 }
+};
+let paradaActual='ruinas';
+let paradasVisitadas=new Set();
+function obtenerAudio(){
+  if(!sonidoActivo)return null;
+  try{
+    const Audio=window.AudioContext||window.webkitAudioContext;
+    if(!Audio)return null;
+    if(!contextoAudio)contextoAudio=new Audio();
+    if(contextoAudio.state==='suspended')contextoAudio.resume().catch(()=>{});
+    return contextoAudio;
+  }catch(_){return null;}
+}
+function ruidoSuave(ctx,frecuencia,tipo,duracion,volumen,pan=0){
+  const ahora=ctx.currentTime, n=Math.max(1,Math.floor(ctx.sampleRate*duracion));
+  const buffer=ctx.createBuffer(1,n,ctx.sampleRate),datos=buffer.getChannelData(0);
+  for(let i=0;i<n;i++)datos[i]=Math.random()*2-1;
+  const fuente=ctx.createBufferSource(),filtro=ctx.createBiquadFilter(),ganancia=ctx.createGain();
+  fuente.buffer=buffer;filtro.type=tipo;filtro.frequency.setValueAtTime(frecuencia,ahora);
+  fuente.connect(filtro);filtro.connect(ganancia);
+  let salida=ganancia;
+  if(ctx.createStereoPanner){const paneo=ctx.createStereoPanner();paneo.pan.setValueAtTime(pan,ahora);ganancia.connect(paneo);salida=paneo;}
+  salida.connect(ctx.destination);ganancia.gain.setValueAtTime(.001,ahora);
+  ganancia.gain.linearRampToValueAtTime(volumen,ahora+.18);
+  ganancia.gain.exponentialRampToValueAtTime(.001,ahora+duracion);
+  fuente.start(ahora);fuente.stop(ahora+duracion+.04);
+}
+function sonidoAves(ctx){
+  for(let grupo=0;grupo<3;grupo++){
+    const comienzo=ctx.currentTime+grupo*.3;
+    for(let nota=0;nota<3;nota++){
+      const inicio=comienzo+nota*.105,osc=ctx.createOscillator(),gan=ctx.createGain();
+      const pan=ctx.createStereoPanner?ctx.createStereoPanner():null;
+      osc.type='sine';osc.frequency.setValueAtTime(1000+Math.random()*500,inicio);
+      osc.frequency.exponentialRampToValueAtTime(1750+Math.random()*850,inicio+.075);
+      osc.frequency.exponentialRampToValueAtTime(1150+Math.random()*420,inicio+.18);
+      gan.gain.setValueAtTime(.001,inicio);gan.gain.linearRampToValueAtTime(.035,inicio+.025);gan.gain.exponentialRampToValueAtTime(.001,inicio+.2);
+      osc.connect(gan);if(pan){pan.pan.setValueAtTime((grupo-1)*.48,inicio);gan.connect(pan);pan.connect(ctx.destination);}else gan.connect(ctx.destination);
+      osc.start(inicio);osc.stop(inicio+.22);
+    }
+  }
+}
+function sonidoCultural(ctx){
+  [392,523,659].forEach((frecuencia,i)=>{
+    const inicio=ctx.currentTime+i*.16,osc=ctx.createOscillator(),gan=ctx.createGain(),filtro=ctx.createBiquadFilter();
+    osc.type='triangle';osc.frequency.setValueAtTime(frecuencia,inicio);filtro.type='lowpass';filtro.frequency.setValueAtTime(1100,inicio);
+    gan.gain.setValueAtTime(.001,inicio);gan.gain.linearRampToValueAtTime(.055,inicio+.015);gan.gain.exponentialRampToValueAtTime(.001,inicio+.32);
+    osc.connect(filtro);filtro.connect(gan);gan.connect(ctx.destination);osc.start(inicio);osc.stop(inicio+.34);
+  });
+  ruidoSuave(ctx,1700,'highpass',.28,.014);
+}
+function sonidoAvion(ctx){
+  const inicio=ctx.currentTime,osc=ctx.createOscillator(),filtro=ctx.createBiquadFilter(),gan=ctx.createGain();
+  osc.type='sawtooth';osc.frequency.setValueAtTime(66,inicio);osc.frequency.linearRampToValueAtTime(108,inicio+.75);osc.frequency.linearRampToValueAtTime(76,inicio+1.7);
+  filtro.type='lowpass';filtro.frequency.setValueAtTime(180,inicio);filtro.frequency.linearRampToValueAtTime(330,inicio+.8);filtro.frequency.linearRampToValueAtTime(160,inicio+1.7);
+  gan.gain.setValueAtTime(.001,inicio);gan.gain.linearRampToValueAtTime(.035,inicio+.35);gan.gain.setValueAtTime(.035,inicio+1.25);gan.gain.exponentialRampToValueAtTime(.001,inicio+1.8);
+  osc.connect(filtro);filtro.connect(gan);gan.connect(ctx.destination);osc.start(inicio);osc.stop(inicio+1.85);
+  ruidoSuave(ctx,500,'lowpass',1.8,.018);
+}
+function reproducirAmbiente(tipo){
+  if(tipo==='aves'){coroAlborotado();return;}
+  detenerAvesReales();if(tipo!=='aves')ajustarVolumenMusica(26);
+  if(tipo==='selva'){iniciarNaturaleza();return;}
+  if(tipo==='avion'){
+    detenerNaturaleza();const ctx=obtenerAudio();if(ctx)sonidoAvion(ctx);return;
+  }
+  if(tipo==='agua'){
+    iniciarNaturaleza();const ctx=obtenerAudio();if(ctx){ruidoSuave(ctx,1050,'lowpass',2.5,.085);ruidoSuave(ctx,2300,'highpass',2.1,.018,.2);}return;
+  }
+  if(tipo==='cultura'){
+    iniciarNaturaleza();const ctx=obtenerAudio();if(ctx)sonidoCultural(ctx);return;
+  }
+  iniciarNaturaleza();const ctx=obtenerAudio();if(ctx)ruidoSuave(ctx,800,'lowpass',1.2,.025);
+}
+function alternarSonido(){
+  sonidoActivo=!sonidoActivo;
+  const boton=document.getElementById('sonido-control');
+  if(boton){boton.setAttribute('aria-pressed',String(sonidoActivo));boton.setAttribute('aria-label',sonidoActivo?'Silenciar sonidos':'Activar sonidos');boton.innerHTML='<i class="fas '+(sonidoActivo?'fa-volume-high':'fa-volume-xmark')+'" aria-hidden="true"></i><span class="sonido-texto" id="sonido-etiqueta">'+(sonidoActivo?'Sonidos de la experiencia activados':'Sonidos de la experiencia apagados')+'</span>';}
+  if(!sonidoActivo){detenerAvesReales();detenerNaturaleza();detenerMusicaHondurena();if(contextoAudio)contextoAudio.suspend().catch(()=>{});}
+  else{if(presentacionMusicalActiva&&reproduccionMusicaSolicitada)iniciarMusicaHondurena();else reproducirAmbiente(zonaAbierta?(paradasCopan[paradaActual]?.sonido||'selva'):'selva');}
+}
+function actualizarBitacora(){
+  const total=document.getElementById('paradas-hechas'),barra=document.getElementById('bitacora-progreso');
+  if(total)total.textContent=String(paradasVisitadas.size);
+  if(barra)barra.style.width=(paradasVisitadas.size/5*100)+'%';
+  document.querySelectorAll('.map-stop').forEach(b=>b.classList.toggle('visitada',paradasVisitadas.has(b.dataset.parada)));
+}
+function marcarAvesAnimadas(escena,esAve){
+  if(!escena)return;
+  escena.classList.toggle('escena-con-aves',esAve);
+  let bandada=escena.querySelector('.bandada-viva');
+  if(!esAve){bandada?.remove();return;}
+  if(!bandada){bandada=document.createElement('span');bandada.className='bandada-viva';bandada.setAttribute('aria-hidden','true');
+    for(let i=0;i<3;i++){const ave=document.createElement('i');ave.className='fas fa-dove';bandada.appendChild(ave);}
+    escena.appendChild(bandada);
+  }
+}
+function prepararAnimacionDeAves(){
+  document.querySelectorAll('.foto-lugar img,.galeria-item img,#mapa-foto').forEach(img=>{
+    const escena=img.closest('.foto-lugar,.galeria-item,.panel-parada-foto');
+    marcarAvesAnimadas(escena,/guacam|macaw|ave|bird/i.test(img.alt||''));
+  });
+}
+prepararAnimacionDeAves();
+function seleccionarParada(id,sonar=true){
+  const parada=paradasCopan[id];if(!parada)return;
+  paradaActual=id;
+  document.querySelectorAll('.map-stop').forEach(b=>b.classList.toggle('activa',b.dataset.parada===id));
+  const foto=document.getElementById('mapa-foto'),categoria=document.getElementById('mapa-categoria');
+  if(foto){foto.src=parada.foto;foto.alt=parada.alt;foto.dataset.photoGroup=parada.sonido==='aves'?'macaw':parada.sonido==='agua'?'thermal':parada.sonido==='cultura'?'ruinas':'ruinas';marcarAvesAnimadas(foto.closest('.panel-parada-foto'),parada.sonido==='aves');}
+  if(categoria)categoria.innerHTML='<i class="fas '+parada.icono+'" aria-hidden="true"></i> '+parada.categoria;
+  document.getElementById('mapa-titulo').textContent=parada.titulo;
+  document.getElementById('mapa-descripcion').textContent=parada.descripcion;
+  const visitar=document.getElementById('mapa-visitar'),hecha=paradasVisitadas.has(id);
+  visitar.classList.toggle('completada',hecha);
+  visitar.innerHTML=hecha?'<i class="fas fa-circle-check" aria-hidden="true"></i> Parada completada':'<i class="fas fa-check" aria-hidden="true"></i> Visitar parada';
+  const controlesAves=document.getElementById('sonidos-aves');if(controlesAves)controlesAves.hidden=id!=='aves';
+  if(sonar)reproducirAmbiente(parada.sonido);
+}
+function visitarParada(){
+  if(!paradaActual)return;
+  paradasVisitadas.add(paradaActual);
+  try{localStorage.setItem('copan-bitacora',JSON.stringify([...paradasVisitadas]));}catch(_){}
+  actualizarBitacora();seleccionarParada(paradaActual,false);reproducirAmbiente(paradasCopan[paradaActual]?.sonido||'selva');
+}
+function verParadaCompleta(){
+  const parada=paradasCopan[paradaActual],tarjetas=[...document.querySelectorAll('#tab-lugares .tarjeta-lugar')];
+  const tarjeta=tarjetas[parada?.tarjeta];
+  if(tarjeta){tarjeta.scrollIntoView({behavior:'smooth',block:'center'});tarjeta.classList.add('aventura-resaltada');setTimeout(()=>tarjeta.classList.remove('aventura-resaltada'),2300);}
+}
+document.querySelectorAll('.map-stop').forEach(b=>b.addEventListener('click',()=>seleccionarParada(b.dataset.parada,true)));
+document.getElementById('mapa-visitar')?.addEventListener('click',visitarParada);
+document.getElementById('mapa-ver-lugar')?.addEventListener('click',verParadaCompleta);
+document.getElementById('oir-guacamaya')?.addEventListener('click',()=>escucharAve('guacamaya'));
+document.getElementById('oir-pericos')?.addEventListener('click',()=>escucharAve('pericos'));
+try{
+  const guardadas=JSON.parse(localStorage.getItem('copan-bitacora')||'[]');
+  if(Array.isArray(guardadas))guardadas.filter(id=>Object.prototype.hasOwnProperty.call(paradasCopan,id)).forEach(id=>paradasVisitadas.add(id));
+}catch(_){}
+actualizarBitacora();
+document.addEventListener('click',e=>{
+  const imagen=e.target.closest('img');
+  if(!imagen||imagen.closest('.video-thumb'))return;
+  const contexto=((imagen.alt||'')+' '+(imagen.dataset.photoGroup||'')).toLowerCase();
+  const tipo=/termal|agua|poza|cascada|luna jaguar/.test(contexto)?'agua':/guacam|macaw|ave|bird/.test(contexto)?'aves':/avion|avión|vuelo|aeropuerto/.test(contexto)?'avion':/selva|sendero/.test(contexto)?'selva':'cultura';
+  reproducirAmbiente(tipo);
+});
+// La banda sonora acompaña el trayecto cuando el visitante ya inició la experiencia.
+const pintarEscenaOriginal=pintarEscenaViaje;
+pintarEscenaViaje=function(indice){
+  pintarEscenaOriginal(indice);
+  reproducirAmbiente(indice===1||indice===2?'avion':'selva');
+};
+/* ============ PRESENTACIÓN DE BIENVENIDA Y REVELACIÓN DE COPÁN ============ */
+(function(){
+  const pre=document.getElementById('preloader');
+  if(!pre){document.body.classList.add('cargado');return;}
+  let cerrando=false;
+  let salidaAutomatica;
+  window.finalizarPresentacion=function(){
+    if(cerrando)return;
+    cerrando=true;
+    clearTimeout(salidaAutomatica);
+    presentacionMusicalActiva=false;
+    reproduccionMusicaSolicitada=false;
+    detenerMusicaHondurena();
+    pre.classList.add('explosion-activa');
+    setTimeout(()=>{
+      pre.classList.add('adios');
+      document.body.classList.add('cargado');
+      setTimeout(()=>pre.remove(),1050);
+    },850);
+  };
+  salidaAutomatica=setTimeout(window.finalizarPresentacion,24000);
+})();
+/* ============ CURSOR ============ */
+const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,.tarjeta-macro,.zoomable,.logo,.tab-zona,.galeria-item,.video-card,.scroll-arrow-btn'))document.body.classList.add('cursor-grow');});
+document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.tarjeta-macro,.zoomable,.logo,.tab-zona,.galeria-item,.video-card,.scroll-arrow-btn'))document.body.classList.remove('cursor-grow');});
+
+/* ============ PARTÍCULAS ============ */
+(function(){const c=document.getElementById('particulas');if(!c)return;for(let i=0;i<26;i++){const s=document.createElement('span');s.className='particula';const sz=Math.random()*5+2;s.style.width=s.style.height=sz+'px';s.style.left=Math.random()*100+'vw';s.style.animationDuration=(Math.random()*10+9)+'s';s.style.animationDelay=(Math.random()*12)+'s';c.appendChild(s);}})();
+
+/* ============ SCROLL ============ */
+const nav=document.getElementById('nav'),prog=document.getElementById('progreso'),parallaxEls=document.querySelectorAll('[data-parallax]');
+function onScroll(){const y=scrollY;prog.style.width=(y/(document.body.scrollHeight-innerHeight)*100)+'%';nav.classList.toggle('solido',y>60);
+  parallaxEls.forEach(el=>{el.style.transform=`translateY(${y*parseFloat(el.dataset.parallax)}px)`;});}
+addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});onScroll();
+
+/* ============ REVELADO ============ */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.15});
+document.querySelectorAll('[data-anim]').forEach(el=>io.observe(el));
+
+/* ============ CONTADORES ============ */
+const ioNum=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;ioNum.unobserve(e.target);const meta=+e.target.dataset.meta,t0=performance.now();
+  (function step(t){const k=Math.min(1,(t-t0)/1800),ease=1-Math.pow(1-k,4);e.target.textContent=Math.round(meta*ease);if(k<1)requestAnimationFrame(step);})(t0);}),{threshold:.6});
+document.querySelectorAll('.contador').forEach(el=>ioNum.observe(el));
+
+/* ============ TILT 3D ============ */
+document.querySelectorAll('.tilt').forEach(card=>{
+  card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+    card.style.setProperty('--rx',((py-.5)*-8)+'deg');card.style.setProperty('--ry',((px-.5)*8)+'deg');
+    card.style.setProperty('--mx',(px*100)+'%');card.style.setProperty('--my',(py*100)+'%');});
+  card.addEventListener('mouseleave',()=>{card.style.setProperty('--rx','0deg');card.style.setProperty('--ry','0deg');});
+});
+
+/* ============ MAGNÉTICOS ============ */
+document.querySelectorAll('.magnetico').forEach(b=>{b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.3-4}px)`;});b.addEventListener('mouseleave',()=>b.style.transform='');});
+
+/* ============ SCROLL HORIZONTAL VIDEOS ============ */
+function scrollVideos(direction) {
+  const container = document.getElementById('videosScrollContainer');
+  const scrollAmount = 620;
+  container.scrollBy({
+    left: direction * scrollAmount,
+    behavior: 'smooth'
+  });
+}
+
+// Scroll con rueda del mouse en el contenedor de videos
+document.getElementById('videosScrollContainer').addEventListener('wheel', function(e) {
+  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+    e.preventDefault();
+    this.scrollLeft += e.deltaY;
+  }
+}, { passive: false });
+
+/* ============ PESTAÑAS ============ */
+function cambiarTab(tabElement, contentId) {
+  document.querySelectorAll('.tab-zona').forEach(tab => tab.classList.remove('activa'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('activa'));
+  
+  tabElement.classList.add('activa');
+  document.getElementById(contentId).classList.add('activa');
+  
+  const newAnimElements = document.getElementById(contentId).querySelectorAll('[data-anim]');
+  newAnimElements.forEach(el => {
+    el.classList.remove('in');
+    io.observe(el);
+  });
+}
+
+/* ============ NAVEGACIÓN ENTRE VISTAS ============ */
+const curtain=document.getElementById('curtain'),vistaP=document.getElementById('vista-principal'),vistaI=document.getElementById('vista-interna'),btnVolver=document.getElementById('btnVolver');
+let ocupado=false,zonaAbierta=false;
+function transicion(accion){if(ocupado)return;ocupado=true;curtain.classList.add('cover-in');
+  setTimeout(()=>{accion();scrollTo({top:0,behavior:'instant'});curtain.classList.remove('cover-in');curtain.classList.add('cover-out');
+    setTimeout(()=>{curtain.classList.add('no-trans');curtain.classList.remove('cover-out');void curtain.offsetWidth;curtain.classList.remove('no-trans');ocupado=false;},700);},700);}
+/* ============ VIAJE CINEMATOGRÁFICO AL ABRIR COPÁN ============ */
+const viajeCinematico=document.getElementById('viaje-cinematico');
+const escenasViaje=[...document.querySelectorAll('.escena-viaje')];
+const duracionesViaje=[2550,2450,3000,2650];
+const viajePaso=document.getElementById('viaje-paso');
+const viajeBarra=document.getElementById('viaje-barra');
+let viajeTimer=null,viajeRAF=null,viajeEnCurso=false,viajeRealizado=false,viajeCallback=null,viajeInicio=0;
+const duracionTotalViaje=duracionesViaje.reduce((a,b)=>a+b,0);
+function pintarEscenaViaje(indice){
+  escenasViaje.forEach((escena,i)=>escena.classList.toggle('activa',i===indice));
+  if(viajePaso)viajePaso.textContent=String(indice+1).padStart(2,'0')+' / '+String(escenasViaje.length).padStart(2,'0');
+}
+function animarProgresoViaje(){
+  if(!viajeEnCurso)return;
+  const progreso=Math.min(100,((performance.now()-viajeInicio)/duracionTotalViaje)*100);
+  if(viajeBarra)viajeBarra.style.width=progreso+'%';
+  if(progreso<100)viajeRAF=requestAnimationFrame(animarProgresoViaje);
+}
+function terminarViaje(){
+  if(!viajeEnCurso)return;
+  clearTimeout(viajeTimer);viajeTimer=null;
+  if(viajeRAF)cancelAnimationFrame(viajeRAF);viajeRAF=null;
+  if(viajeBarra)viajeBarra.style.width='100%';
+  viajeEnCurso=false;
+  viajeCinematico.classList.remove('visible');
+  viajeCinematico.setAttribute('aria-hidden','true');
+  document.body.classList.remove('viaje-activo');
+  const alTerminar=viajeCallback;viajeCallback=null;
+  setTimeout(()=>{if(typeof alTerminar==='function')alTerminar();},380);
+}
+function saltarViaje(){terminarViaje();}
+function iniciarViaje(alTerminar){
+  if(viajeEnCurso)return;
+  if(!viajeCinematico){if(typeof alTerminar==='function')alTerminar();return;}
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){if(typeof alTerminar==='function')alTerminar();return;}
+  viajeEnCurso=true;viajeCallback=alTerminar;viajeInicio=performance.now();
+  clearTimeout(viajeTimer);if(viajeRAF)cancelAnimationFrame(viajeRAF);
+  viajeCinematico.classList.add('visible');viajeCinematico.setAttribute('aria-hidden','false');document.body.classList.add('viaje-activo');
+  if(viajeBarra)viajeBarra.style.width='0%';
+  pintarEscenaViaje(0);animarProgresoViaje();
+  let indice=0;
+  const paso=()=>{
+    if(!viajeEnCurso)return;
+    if(indice>=escenasViaje.length){terminarViaje();return;}
+    viajeTimer=setTimeout(()=>{indice++;if(indice<escenasViaje.length)pintarEscenaViaje(indice);paso();},duracionesViaje[indice]);
+  };
+  paso();
+}
+function abrirZonaDirecta(id){transicion(()=>{vistaP.style.display='none';vistaI.style.display='block';
+  document.querySelectorAll('.zona-oculta').forEach(z=>z.classList.remove('activa'));
+  const zona=document.getElementById('zona-'+id);if(zona)zona.classList.add('activa');
+  btnVolver.classList.add('visible');zonaAbierta=true;
+  document.querySelectorAll('#zona-'+id+' [data-anim]').forEach(el=>{el.classList.remove('in');io.observe(el);});});}
+function abrirZona(id){if(ocupado||viajeEnCurso)return;if(zonaAbierta&&document.getElementById('zona-'+id)?.classList.contains('activa')){document.getElementById('mapa-aventura')?.scrollIntoView({behavior:'smooth'});return;}iniciarViaje(()=>{viajeRealizado=true;abrirZonaDirecta(id);});}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&viajeEnCurso)saltarViaje();});
+function volverAlInicio(){if(viajeEnCurso)return;if(!zonaAbierta){scrollTo({top:0,behavior:'smooth'});return;}detenerAvesReales();transicion(()=>{vistaI.style.display='none';document.querySelectorAll('.zona-oculta').forEach(z=>z.classList.remove('activa'));vistaP.style.display='block';btnVolver.classList.remove('visible');zonaAbierta=false;viajeRealizado=false;});}
+function irA(seccion){if(zonaAbierta){volverAlInicio();setTimeout(()=>document.getElementById(seccion)?.scrollIntoView({behavior:'smooth'}),1500);}else{document.getElementById(seccion)?.scrollIntoView({behavior:'smooth'});}}
+
+/* ============ LIGHTBOX MEJORADO ============ */
+const lb=document.getElementById('lightbox'),lbImg=document.getElementById('lightbox-img'),lbPie=document.getElementById('lightbox-pie');
+let galeriaItems = [];
+let currentLightboxIndex = 0;
+
+document.querySelectorAll('.zoomable').forEach(f=>f.addEventListener('click',e=>{
+  e.stopPropagation();
+  const img=f.querySelector('img');
+  lbImg.alt=img.alt || 'Fotografía ampliada de Copán';
+  lbImg.dataset.photoGroup=img.alt || '';
+  lbImg.src=img.src;
+  lbPie.textContent=img.alt;
+  lb.classList.add('abierto');
+  document.body.classList.add('bloqueado');
+}));
+
+document.querySelectorAll('.galeria-item').forEach((item, index)=>{
+  galeriaItems.push(item);
+  item.addEventListener('click',e=>{
+    e.stopPropagation();
+    currentLightboxIndex = index;
+    abrirLightbox(index);
+  });
+});
+
+function abrirLightbox(index) {
+  const item = galeriaItems[index];
+  const fullSrc = item.getAttribute('data-full');
+  const caption = item.getAttribute('data-caption');
+  lbImg.alt = caption || 'Fotografía ampliada de Copán';
+  lbImg.dataset.photoGroup = caption || '';
+  lbImg.src = fullSrc;
+  lbPie.textContent = caption;
+  lb.classList.add('abierto');
+  document.body.classList.add('bloqueado');
+}
+
+function navLightbox(direction) {
+  currentLightboxIndex += direction;
+  if (currentLightboxIndex < 0) currentLightboxIndex = galeriaItems.length - 1;
+  if (currentLightboxIndex >= galeriaItems.length) currentLightboxIndex = 0;
+  abrirLightbox(currentLightboxIndex);
+}
+
+function cerrarLightbox(){lb.classList.remove('abierto');document.body.classList.remove('bloqueado');}
+lb.addEventListener('click',e=>{if(e.target===lb)cerrarLightbox();});
+addEventListener('keydown',e=>{
+  if(e.key==='Escape')cerrarLightbox();
+  if(lb.classList.contains('abierto')){
+    if(e.key==='ArrowLeft')navLightbox(-1);
+    if(e.key==='ArrowRight')navLightbox(1);
+  }
+});
+
+/* ============ VIDEO EMBEBIDO: VIMEO CON RESPALDO AUTOMÁTICO ============ */
+const VIDEO_FALLBACKS = {
+  '6373103': ['81153749', '1140117744', '61670243'],
+  '81153749': ['6373103', '1140117744', '61670243'],
+  '61670243': ['6373103', '81153749', '1140117744'],
+  '1150446014': ['6373103', '81153749', '1140117744'],
+  '141077169': ['6373103', '81153749', '61670243'],
+  '1140117744': ['6373103', '81153749', '61670243']
+};
+let vimeoApiPromise = null;
+let videoAttemptCounter = 0;
+
+function cargarApiVimeo() {
+  if (window.Vimeo && window.Vimeo.Player) return Promise.resolve(true);
+  if (vimeoApiPromise) return vimeoApiPromise;
+  vimeoApiPromise = new Promise(resolve => {
+    const script = document.createElement('script');
+    script.src = 'https://player.vimeo.com/api/player.js';
+    script.async = true;
+    script.onload = () => resolve(!!(window.Vimeo && window.Vimeo.Player));
+    script.onerror = () => resolve(false);
+    document.head.appendChild(script);
+  });
+  return vimeoApiPromise;
+}
+
+function mostrarErrorVideo(wrapper, titulo, ids) {
+  wrapper.classList.remove('video-reproduciendo');
+  const panel = document.createElement('div');
+  panel.className = 'video-error-panel';
+  const icono = document.createElement('i');
+  icono.className = 'fas fa-circle-exclamation';
+  icono.setAttribute('aria-hidden', 'true');
+  const mensaje = document.createElement('p');
+  mensaje.textContent = 'Este reproductor no respondió. Puedes volver a intentarlo sin salir de esta página.';
+  const reintentar = document.createElement('button');
+  reintentar.type = 'button';
+  reintentar.className = 'video-retry-btn';
+  reintentar.innerHTML = '<i class="fas fa-rotate-right" aria-hidden="true"></i> Intentar otra vez aquí';
+  reintentar.addEventListener('click', () => montarVimeo(wrapper, titulo, ids, 0));
+  panel.append(icono, mensaje, reintentar);
+  wrapper.replaceChildren(panel);
+}
+
+function montarVimeo(wrapper, titulo, ids, index = 0) {
+  if (index >= ids.length) {
+    mostrarErrorVideo(wrapper, titulo, ids);
+    return;
+  }
+  const id = ids[index];
+  const token = String(++videoAttemptCounter);
+  wrapper.dataset.videoAttempt = token;
+  wrapper.dataset.activeVideoId = id;
+  wrapper.classList.add('video-reproduciendo');
+
+  const frame = document.createElement('iframe');
+  frame.title = titulo;
+  frame.src = `https://player.vimeo.com/video/${encodeURIComponent(id)}?autoplay=1&playsinline=1&dnt=1&title=0&byline=0&portrait=0`;
+  frame.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture; encrypted-media');
+  frame.setAttribute('allowfullscreen', '');
+  frame.setAttribute('loading', 'eager');
+  frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+  frame.setAttribute('frameborder', '0');
+  wrapper.replaceChildren(frame);
+
+  let player = null;
+  let settled = false;
+  let timer = null;
+  const intentarSiguiente = () => {
+    if (settled || wrapper.dataset.videoAttempt !== token) return;
+    settled = true;
+    if (timer) clearTimeout(timer);
+    if (index + 1 < ids.length) {
+      montarVimeo(wrapper, titulo, ids, index + 1);
+    } else {
+      mostrarErrorVideo(wrapper, titulo, ids);
+    }
+  };
+
+  cargarApiVimeo().then(disponible => {
+    // El iframe sigue siendo utilizable aunque la API opcional no cargue.
+    if (!disponible || !frame.isConnected || wrapper.dataset.videoAttempt !== token) return;
+    try {
+      player = new window.Vimeo.Player(frame);
+      player.on('error', intentarSiguiente);
+      player.on('play', () => {
+        settled = true;
+        if (timer) clearTimeout(timer);
+      });
+      timer = setTimeout(() => {
+        if (settled || wrapper.dataset.videoAttempt !== token || !player) return;
+        player.getPaused().then(paused => {
+          if (paused && !settled) intentarSiguiente();
+        }).catch(() => {});
+      }, 22000);
+      player.ready().then(() => {
+        if (!frame.isConnected || wrapper.dataset.videoAttempt !== token) return;
+        player.play().catch(error => {
+          // Algunos navegadores bloquean el autoplay con sonido: se intenta iniciar en silencio.
+          if (error && error.name === 'NotAllowedError') {
+            player.setMuted(true).then(() => player.play()).catch(() => {});
+          } else if (error && /Privacy|Password|Embed|Unavailable/i.test(error.name || '')) {
+            intentarSiguiente();
+          }
+        });
+      }).catch(intentarSiguiente);
+    } catch (_) {
+      // Si la API falla, el reproductor dentro del iframe permanece visible.
+    }
+  }).catch(() => {});
+}
+
+function reproducirVideo(boton) {
+  const wrapper = boton.closest('.video-wrapper');
+  const id = boton.dataset.videoId || wrapper?.dataset.videoId;
+  const titulo = boton.dataset.videoTitle || wrapper?.dataset.videoTitle || 'Video de Copán';
+  if (!wrapper || !id) return;
+  const ids = [id, ...(VIDEO_FALLBACKS[id] || [])].filter((value, index, list) => list.indexOf(value) === index);
+  montarVimeo(wrapper, titulo, ids, 0);
+}
+
+
+/* ============ FOTOS: INTENTAR ALTERNATIVAS ANTES DE MOSTRAR FALLBACK ============ */
+const FOTOS_COPAN={
+  lago:[
+    'https://www.opturh.com/sites/default/files/G0025542.jpg',
+    'https://secretcentralamerica.com/wp-content/uploads/2020/08/place-central-america-honduras-yojoa-lake-04.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Lake_Yojoa_NASA.jpg/1024px-Lake_Yojoa_NASA.jpg'
+  ],
+  avion:[
+    'https://traveldiunsa.expovacaciones.hn/images/aerlineas_sosa/galeria/Aerolineas_Sosa_-_Travel_Diunsa_-_6.jpg',
+    'https://aviationweek.com/sites/default/files/styles/crop_freeform/public/2023-06/Tropic%20Air%20Belize.jpeg?itok=iC7GjhYf',
+    'https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp'
+  ],
+  aerea:[
+    'https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Aerial-View-Honduras-Centroamerica-06.webp',
+    'https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Ruinas_MAYA_Copan_Honduras_14.jpg/1280px-Ruinas_MAYA_Copan_Honduras_14.jpg'
+  ],
+  ruinas:[
+    'https://www.visitcentroamerica.com/wp-content/uploads/2025/04/Copan-Ruins-Honduras-Centroamerica-02.webp',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Ruinas_MAYA_Copan_Honduras_14.jpg/1280px-Ruinas_MAYA_Copan_Honduras_14.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ruinas_MAYA_Copan_Honduras_13.jpg/1280px-Ruinas_MAYA_Copan_Honduras_13.jpg'
+  ],
+  macaw:[
+    'https://toniweb.com/var/albums/Honduras-Copan/Sitio-Arqueologico-Copan/guacamayas_copan_1.jpg?m=1405011507',
+    'https://noahadventure.weebly.com/uploads/7/0/3/0/70305847/gettyimages-148630585-large-cs_orig.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Ruinas_MAYA_Copan_Honduras_14.jpg/1280px-Ruinas_MAYA_Copan_Honduras_14.jpg'
+  ],
+  santa:[
+    'https://static.wixstatic.com/media/b29547_0f74f5c9d300496eaf190dc75004b089~mv2.png/v1/fill/w_1534%2Ch_828%2Cal_c/Catedral%20Santa%20Rosa%20De%20Cop%C3%A1n%201.png',
+    'https://upload.wikimedia.org/wikipedia/commons/b/bc/Santa_Rosa_de_Cop%C3%A1n_Cathedral_in_Honduras_1998.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Ruinas_MAYA_Copan_Honduras_14.jpg/1280px-Ruinas_MAYA_Copan_Honduras_14.jpg'
+  ],
+  thermal:[
+    'https://www.revistaestilo.net/binrepository/533x400/0c0/0d0/none/179468266/DQGF/36-copy7_ES1360118_MG346208283.jpg',
+    'https://lunajaguarspa.com/wp-content/uploads/2023/03/servicios.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Ruinas_MAYA_Copan_Honduras_14.jpg/1280px-Ruinas_MAYA_Copan_Honduras_14.jpg'
+  ]
+};
+function grupoFoto(img){
+  const contexto=(img.alt||'')+' '+(img.dataset.photoGroup||'')+' '+(img.closest('[data-video-title]')?.dataset.videoTitle||'');
+  const t=contexto.toLowerCase();
+  if(/data-photo-group|lago|yojoa|santa cruz de yojoa/.test(t)) return 'lago';
+  if(/avion|avión|aeropuerto|embarque|pasajeros/.test(t)) return 'avion';
+  if(/aerea|aérea|vista aérea|parque arqueológico de copán entre la selva/.test(t)) return 'aerea';
+  if(/guacam|macaw|ave|bird|vuelo libre/.test(t)) return 'macaw';
+  if(/santa rosa|colonial|casco hist|catedral/.test(t)) return 'santa';
+  if(/termal|luna jaguar|poza|piscina|spa natural|aguas/.test(t)) return 'thermal';
+  return 'ruinas';
+}
+function svgFotoRespaldo(img){
+  const grupo=grupoFoto(img);
+  const texto=grupo==='lago'?'LAGO DE YOJOA':grupo==='avion'?'RUMBO A COPÁN':grupo==='aerea'?'COPÁN DESDE EL AIRE':grupo==='macaw'?'GUACAMAYAS ROJAS':grupo==='santa'?'SANTA ROSA DE COPÁN':grupo==='thermal'?'AGUAS TERMALES':'COPÁN RUINAS';
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720"><defs><linearGradient id="f" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071a12"/><stop offset=".58" stop-color="#17462f"/><stop offset="1" stop-color="#9b7830"/></linearGradient></defs><rect width="1200" height="720" fill="url(#f)"/><circle cx="970" cy="115" r="150" fill="#e8d5a4" opacity=".12"/><path d="M0 540L190 390 340 510 520 300 710 505 890 370 1200 545V720H0Z" fill="#04110c" opacity=".48"/><path d="M420 570V390H500V570M500 430L600 345 700 430V570M560 570V470H640V570" fill="#e8d5a4" opacity=".35"/><text x="600" y="625" text-anchor="middle" fill="#f6f1e7" font-family="Arial,sans-serif" font-size="35" font-weight="700" letter-spacing="7">${texto}</text><text x="600" y="668" text-anchor="middle" fill="#e8d5a4" font-family="Arial,sans-serif" font-size="17" letter-spacing="4">COPÁN MÁGICO · HONDURAS</text></svg>`;
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+}
+function prepararFoto(img){
+  if(img.dataset.fallbackPrepared==='1') return;
+  img.dataset.fallbackPrepared='1';
+  if(!img.hasAttribute('loading')) img.loading=(img.id==='lightbox-img'||img.closest('.hero-bg'))?'eager':'lazy';
+  if(!img.hasAttribute('decoding')) img.decoding='async';
+  if(img.closest('.hero-bg')) img.fetchPriority='high';
+  const lista=FOTOS_COPAN[grupoFoto(img)]||FOTOS_COPAN.ruinas;
+  const original=img.getAttribute('src')||'';
+  const actual=img.currentSrc||img.src||original;
+  const alternas=[...lista, ...FOTOS_COPAN.ruinas].filter((url,i,arr)=>url!==actual && arr.indexOf(url)===i).slice(0,3);
+  img.dataset.fallbackIndex='0';
+  img.addEventListener('error',function(){
+    const n=Number(img.dataset.fallbackIndex||0);
+    if(n<alternas.length){img.dataset.fallbackIndex=String(n+1);img.src=alternas[n];return;}
+    img.onerror=null;
+    img.src=svgFotoRespaldo(img);
+    img.classList.add('image-fallback-svg');
+  });
+  if(img.complete && img.naturalWidth===0 && actual) img.dispatchEvent(new Event('error'));
+}
+document.querySelectorAll('img').forEach(prepararFoto);
+
+/* Las imágenes ampliadas también reciben su fallback y texto alternativo correcto. */
+prepararFoto(document.getElementById('lightbox-img'));
+
+</script>
+<script>
+window.onSpotifyIframeApiReady=function(IFrameAPI){
+  const montaje=document.getElementById('spotify-embed');if(!montaje)return;
+  IFrameAPI.createController(montaje,{uri:'spotify:track:0FbnL9EfyZFhJGorVG7GQg',width:'100%',height:152},controller=>{
+    controladorMusicaSpotify=controller;
+    controller.addListener('playback_started',()=>{musicaHondurenaActiva=true;});
+    controller.addListener('playback_update',evento=>{if(evento?.data)musicaHondurenaActiva=!evento.data.isPaused;});
+    controller.addListener('ready',()=>{if(sonidoActivo&&presentacionMusicalActiva)setTimeout(iniciarMusicaHondurena,650);});
+  });
+};
+</script>
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+</body>
+</html>
+
+
+
+
+
